@@ -5,12 +5,12 @@ GDGoC 3기 정보보안 스터디의 암호 퀴즈 프로젝트.
 
 ## User flow chart
 ![](./presentation/cq_fc.png)
-##  API 명세서
+##  API Documents
 ![](./presentation/APIspecification.png)
 
 ---
   
-# 정보보안 (웹 해킹, 암호학) 스터디 과정
+# GDGoC 3기 정보보안 (웹 해킹, 암호학) 스터디 과정
 ## 스터디 개설 계기
 ![](./presentation/motivation.png)
 ## 스터디 자료
