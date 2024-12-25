@@ -1,24 +1,13 @@
 package com.example.cipherquest.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-@Entity
-@Table(uniqueConstraints={@UniqueConstraint(columnNames="id")})
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
+@RedisHash("Stage")
 public class StageEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="stage_id")
-    private Long stageId;
-
+    private String stageId;
     private String description;
     private String encryptedText;
     private String answer;
