@@ -7,6 +7,8 @@ GDGoC 3기 정보보안 스터디의 암호 퀴즈 프로젝트.
 ![](./presentation/cq_fc.png)
 ##  API Documents
 ![](./presentation/APIspecification.png)
+## Using Cryptography Algorithm
+![](./presentation/cq_algo.png)
 ## Project Architecture
 ![](./presentation/cq_pa.png)
 
