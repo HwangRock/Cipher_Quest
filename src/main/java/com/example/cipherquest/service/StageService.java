@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+
 @Slf4j
 @Service
 public class StageService {
@@ -19,10 +21,10 @@ public class StageService {
         this.redisTemplate = redisTemplate;
     }
 
-    //redis create, update
-    public void setToRedis(String key, Object value) {
+    //redis create, update with TTL
+    public void setToRedisWithTTL(String key, Object value, long durationInSeconds){
         try{
-            redisTemplate.opsForValue().set(key, value);
+            redisTemplate.opsForValue().set(key, value, Duration.ofSeconds(durationInSeconds));
         }catch(Exception e){
             log.error(e.getMessage());
             throw new RuntimeException("Failed to set value to redis");
@@ -47,5 +49,10 @@ public class StageService {
             log.error(e.getMessage());
             throw new RuntimeException("Failed to delete value from redis");
         }
+    }
+
+    //check TTL. 음수 양수로 유효성을 확인
+    public Long getTTL(String key){
+        return redisTemplate.getExpire(key);
     }
 }
