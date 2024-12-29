@@ -2,6 +2,7 @@ package com.example.cipherquest.controller;
 
 import com.example.cipherquest.dto.ResponseDTO;
 import com.example.cipherquest.dto.StageRequestDTO;
+import com.example.cipherquest.dto.StageResponseDTO;
 import com.example.cipherquest.service.EncryptService;
 import com.example.cipherquest.service.StageService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,29 @@ public class StageController {
         try{
             stageService.setToRedisWithTTL(requestDTO.getStageId(), requestDTO.getSubmitPlainText(), DURATION_TIME);
             return ResponseEntity.ok().body("save to redis");
+        } catch (RuntimeException e) {
+            ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+    }
+
+    @GetMapping("/{id}/giveup")
+    public ResponseEntity<?> getText(@PathVariable("id") String id) {
+        try{
+            Object txt=stageService.getFromRedis(id);
+            String plainText;
+            if(txt==null){
+                plainText=null;
+            }
+            else{
+                plainText=txt.toString();
+            }
+
+            StageResponseDTO stageResponseDTO = StageResponseDTO.builder()
+                    .stageId(id)
+                    .answerText(plainText)
+                    .build();
+            return ResponseEntity.ok().body(stageResponseDTO);
         } catch (RuntimeException e) {
             ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
             return ResponseEntity.badRequest().body(responseDTO);
