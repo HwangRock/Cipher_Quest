@@ -7,7 +7,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PageController {
     @GetMapping("/")
     public String homePage() {
-        return "redirect:/index.html"; // static/index.html 파일로 리다이렉트
+        return "index";
+    }
+
+    @GetMapping("cipherquiz")
+    public String cipherquizPage() {
+        return "cipherquiz";
+    }
+
+    @GetMapping("/randomquiz")
+    public String randomQuizPage() {
+        return "randomquiz";
+    }
+
+    @GetMapping("/studycipher")
+    public String studyCipherPage() {
+        return "studycipher";
     }
 }
 

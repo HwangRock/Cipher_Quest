@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cipher Quest</title>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
@@ -22,9 +23,15 @@
         </p>
     </div>
     <div class="button-section">
-        <button onclick="location.href='/cipher-quiz'">암호 퀴즈</button>
-        <button onclick="location.href='/random-quiz'">랜덤 퀴즈</button>
-        <button onclick="location.href='/study-cipher'">암호 알고리즘 공부</button>
+        <a th:href="@{/cipherquiz}">
+            <button>암호 퀴즈</button>
+        </a>
+        <a th:href="@{/randomquiz}">
+            <button>랜덤 퀴즈</button>
+        </a>
+        <a th:href="@{/studycipher}">
+            <button>암호 알고리즘 공부</button>
+        </a>
     </div>
 </div>
 </body>
