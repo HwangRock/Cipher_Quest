@@ -17,6 +17,7 @@ public class StageController {
 
     private StageService stageService;
     private EncryptService encryptService;
+
     public StageController(StageService stageService, EncryptService encryptService) {
         this.stageService = stageService;
         this.encryptService = encryptService;
@@ -39,11 +40,16 @@ public class StageController {
             Object txt=stageService.getFromRedis(id);
             String plainText;
             if(txt==null){
-                plainText=null;
+                return ResponseEntity.badRequest().body(
+                        ResponseDTO.builder().error("해당 스테이지 ID에 대한 데이터가 없습니다.").build()
+                );
             }
             else{
                 plainText=txt.toString();
             }
+
+            stageService.deleteFromRedis(id);
+            log.info("스테이지 {} 데이터 삭제 완료", id);
 
             StageResponseDTO stageResponseDTO = StageResponseDTO.builder()
                     .stageId(id)
@@ -51,8 +57,9 @@ public class StageController {
                     .build();
             return ResponseEntity.ok().body(stageResponseDTO);
         } catch (RuntimeException e) {
-            ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
-            return ResponseEntity.badRequest().body(responseDTO);
+            return ResponseEntity.badRequest().body(
+                    ResponseDTO.builder().error("작업 중 오류가 발생했습니다: " + e.getMessage()).build()
+            );
         }
     }
 }
