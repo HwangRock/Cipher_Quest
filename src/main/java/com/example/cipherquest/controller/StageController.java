@@ -62,4 +62,34 @@ public class StageController {
             );
         }
     }
+
+    @PostMapping("/{id}/encrypt")
+    public ResponseEntity<?> encrypt(@PathVariable("id") String id, @RequestBody StageRequestDTO requestDTO) {
+        try {
+            Object txt = requestDTO.getSubmitPlainText();
+            if (txt == null) {
+                return ResponseEntity.badRequest().body("평문이 없습니다.");
+            }
+
+            Object k=requestDTO.getKey();
+            if (k == null) {
+                return ResponseEntity.badRequest().body("key가 없습니다.");
+            }
+
+            String encrypted= encryptService.Encrypt(id, txt.toString(), k);
+
+            return ResponseEntity.ok().body(encrypted);
+
+        }catch (IllegalArgumentException e) {
+            // 잘못된 입력 예외 처리
+            return ResponseEntity.badRequest().body(
+                    ResponseDTO.builder().error("잘못된 입력: " + e.getMessage()).build()
+            );
+        } catch (RuntimeException e) {
+            // 일반적인 예외 처리
+            return ResponseEntity.status(500).body(
+                    ResponseDTO.builder().error("서버 오류: " + e.getMessage()).build()
+            );
+        }
+    }
 }
