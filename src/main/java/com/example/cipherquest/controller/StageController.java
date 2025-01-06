@@ -113,6 +113,7 @@ public class StageController {
             String findKey = id + "_submit";
             Object answer = stageService.getFromRedis(id);
             Object submit = stageService.getFromRedis(findKey);
+            stageService.deleteFromRedis(findKey);
 
             if (submit == null) {
                 return ResponseEntity.badRequest().body(
@@ -134,6 +135,7 @@ public class StageController {
                         ResponseDTO.builder().data(List.of("오답입니다.")).build()
                 );
             }
+
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(
                     ResponseDTO.builder().error("작업 중 오류가 발생했습니다: " + e.getMessage()).build()
