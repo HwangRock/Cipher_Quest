@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("api/stage")
@@ -27,7 +29,7 @@ public class StageController {
     public ResponseEntity<?> createText(@RequestBody StageRequestDTO requestDTO) {
         try{
             stageService.setToRedisWithTTL(requestDTO.getStageId(), requestDTO.getSubmitPlainText(), DURATION_TIME);
-            return ResponseEntity.ok().body("save to redis");
+            return ResponseEntity.ok().body("save to redis: plain text");
         } catch (RuntimeException e) {
             ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
             return ResponseEntity.badRequest().body(responseDTO);
@@ -92,4 +94,51 @@ public class StageController {
             );
         }
     }
+
+    @PostMapping("{id}/submit")
+    public ResponseEntity<?> submit(@PathVariable("id") String id, @RequestParam String submitUserText) {
+        try{
+            String saveKey=id+"_submit";
+            stageService.setToRedisWithTTL(saveKey, submitUserText, DURATION_TIME);
+            return ResponseEntity.ok().body("save to redis: player submit text");
+        }catch(RuntimeException e) {
+            return ResponseEntity.badRequest().body(
+                    ResponseDTO.builder().error("작업 중 오류가 발생했습니다: " + e.getMessage()).build());
+        }
+    }
+
+    @GetMapping("{id}/verify")
+    public ResponseEntity<?> verify(@PathVariable("id") String id) {
+        try {
+            String findKey = id + "_submit";
+            Object answer = stageService.getFromRedis(id);
+            Object submit = stageService.getFromRedis(findKey);
+
+            if (submit == null) {
+                return ResponseEntity.badRequest().body(
+                        ResponseDTO.builder().error("해당 스테이지 ID에 대한 제출 데이터가 없습니다.").build()
+                );
+            }
+            if (answer == null) {
+                return ResponseEntity.badRequest().body(
+                        ResponseDTO.builder().error("해당 스테이지 ID에 대한 데이터가 없습니다.").build()
+                );
+            }
+
+            if (submit.toString().equals(answer.toString())) {
+                return ResponseEntity.ok().body(
+                        ResponseDTO.builder().data(List.of("정답입니다.")).build()
+                );
+            } else {
+                return ResponseEntity.ok().body(
+                        ResponseDTO.builder().data(List.of("오답입니다.")).build()
+                );
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                    ResponseDTO.builder().error("작업 중 오류가 발생했습니다: " + e.getMessage()).build()
+            );
+        }
+    }
+
 }
