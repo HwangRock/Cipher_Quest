@@ -73,7 +73,7 @@ public class StageController {
                 return ResponseEntity.badRequest().body("평문이 없습니다.");
             }
 
-            Object k=requestDTO.getKey();
+            String k=requestDTO.getKey();
             if (k == null) {
                 return ResponseEntity.badRequest().body("key가 없습니다.");
             }

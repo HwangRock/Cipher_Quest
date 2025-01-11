@@ -1,7 +1,7 @@
 package com.example.cipherquest.cipher;
 
-public interface EncryptStrategy<k> {
-    String encrypt(String plainText, k key);
-    String decrypt(String cipherText, k key);
+public interface EncryptStrategy {
+    String encrypt(String plainText, String key);
+    String decrypt(String cipherText, String key);
 
 }

@@ -17,7 +17,7 @@ public class EncryptService {
         this.strategyMap = strategyMap;
     }
 
-    public String Encrypt(String id, String text, Object key) {
+    public String Encrypt(String id, String text, String key) {
         EncryptStrategy strategy = strategyMap.get(id);
         if (strategy == null) {
             log.error("strategy is null");
@@ -25,7 +25,7 @@ public class EncryptService {
         return strategy.encrypt(text, key);
     }
 
-    public String Decrypt(String id, String text, Object key) {
+    public String Decrypt(String id, String text, String key) {
         EncryptStrategy strategy = strategyMap.get(id);
         if (strategy == null) {
             log.error("strategy is null");

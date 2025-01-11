@@ -4,7 +4,7 @@ package com.example.cipherquest.cipher;
 import org.springframework.stereotype.Component;
 
 @Component("stage2")
-public class VigenereStreategy implements EncryptStrategy<String> {
+public class VigenereStreategy implements EncryptStrategy {
     public String encrypt(String plainText, String key) {
         if (!(key instanceof String)) {
             throw new IllegalArgumentException("Key must be a String. Actual type: " + key.getClass().getName());
