@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.regex.*;
 
 @Slf4j
 @Service
@@ -54,5 +55,11 @@ public class StageService {
     //check TTL. 음수 양수로 유효성을 확인
     public Long getTTL(String key){
         return redisTemplate.getExpire(key);
+    }
+
+    public Boolean checkKey(String key){
+        Pattern pattern=Pattern.compile("^[a-z0-9]+$");
+        Matcher matcher=pattern.matcher(key);
+        return matcher.matches();
     }
 }
