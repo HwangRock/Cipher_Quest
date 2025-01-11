@@ -28,8 +28,17 @@ public class StageController {
     @PostMapping("/create")
     public ResponseEntity<?> createText(@RequestBody StageRequestDTO requestDTO) {
         try{
-            stageService.setToRedisWithTTL(requestDTO.getStageId(), requestDTO.getSubmitPlainText(), DURATION_TIME);
-            return ResponseEntity.ok().body("save to redis: plain text");
+            String key=requestDTO.getKey();
+            if (key == null || key.isEmpty()) {
+                return ResponseEntity.badRequest().body("key가 비어 있습니다.");
+            }
+            if(stageService.checkKey(key)){
+                stageService.setToRedisWithTTL(requestDTO.getStageId(), requestDTO.getSubmitPlainText(), DURATION_TIME);
+                return ResponseEntity.ok().body("save to redis: plain text");
+            }
+            else{
+                return ResponseEntity.badRequest().body("key가 적절하지 않습니다.");
+            }
         } catch (RuntimeException e) {
             ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
             return ResponseEntity.badRequest().body(responseDTO);
