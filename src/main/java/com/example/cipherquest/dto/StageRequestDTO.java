@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StageRequestDTO {
+public class StageRequestDTO<T> {
     private String stageId; // 현재 스테이지의 ID
     private String submitDecryptText; // 사용자가 제출한 복호화 문장
     private String submitPlainText; // 사용자가 암호화되길 바라는 문장
-    private int key; // 암호화/복호화 키
+    private T key; // 암호화/복호화 키
     private String nextStageId; // 다음 스테이지의 ID
 }
