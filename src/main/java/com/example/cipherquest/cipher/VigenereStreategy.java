@@ -6,35 +6,34 @@ import org.springframework.stereotype.Component;
 @Component("stage2")
 public class VigenereStreategy implements EncryptStrategy {
     public String encrypt(String plainText, String key) {
+        plainText = plainText.toLowerCase();
 
         StringBuilder encryptedText = new StringBuilder();
         int fin = plainText.length();
         int keyLen = key.length();
-        StringBuilder encryptKeyBuilder = new StringBuilder();
 
-        // 키 생성
-        for (int i = 0; i < fin; i++) {
-            char c = key.charAt(i % keyLen);
-            encryptKeyBuilder.append(c);
-        }
+        System.out.println("PlainText: " + plainText);
+        System.out.println("Key: " + key);
 
-        String repeatedKey = encryptKeyBuilder.toString();
-
-        // 키와 평문을 매칭시켜 암호화
         for (int i = 0; i < fin; i++) {
             char plainChar = plainText.charAt(i);
-            int plainIdx = plainChar - 'a';
+            if (plainChar >= 'a' && plainChar <= 'z') {
+                int plainIdx = plainChar - 'a';
+                char keyChar = key.charAt(i % keyLen);
+                int keyIdx = keyChar - 'a';
+                int encryptChar = (plainIdx + keyIdx) % 26;
 
-            char keyChar = repeatedKey.charAt(i);
-            int keyIdx = keyChar - 'a';
+                System.out.println("plainChar: " + plainChar + ", plainIdx: " + plainIdx + ", keyIdx: " +keyIdx);
 
-            int encryptChar = (plainIdx + keyIdx) % 26;
-
-            encryptedText.append((char) (encryptChar + 'a'));
+                encryptedText.append((char) (encryptChar + 'a'));
+            } else {
+                encryptedText.append(plainChar);
+            }
         }
 
         return encryptedText.toString();
     }
+
 
 
 
