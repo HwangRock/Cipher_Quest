@@ -4,21 +4,20 @@ package com.example.cipherquest.cipher;
 import org.springframework.stereotype.Component;
 
 @Component("stage2")
-public class VigenereStreategy implements EncryptStrategy {
-    public String encrypt(String plainText, Object key) {
+public class VigenereStreategy implements EncryptStrategy<String> {
+    public String encrypt(String plainText, String key) {
         if (!(key instanceof String)) {
             throw new IllegalArgumentException("Key must be a String. Actual type: " + key.getClass().getName());
         }
 
-        String k = (String) key;
         StringBuilder encryptedText = new StringBuilder();
         int fin = plainText.length();
-        int keyLen = k.length();
+        int keyLen = key.length();
         StringBuilder encryptKeyBuilder = new StringBuilder();
 
         // 키 생성
         for (int i = 0; i < fin; i++) {
-            char c = k.charAt(i % keyLen);
+            char c = key.charAt(i % keyLen);
             encryptKeyBuilder.append(c);
         }
 
@@ -42,7 +41,7 @@ public class VigenereStreategy implements EncryptStrategy {
 
 
 
-    public String decrypt(String cipherText, Object key) {
+    public String decrypt(String cipherText, String key) {
         return "test Vigenere";
     }
 }
