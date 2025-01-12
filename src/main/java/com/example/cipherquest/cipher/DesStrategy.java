@@ -2,13 +2,13 @@ package com.example.cipherquest.cipher;
 
 import org.springframework.stereotype.Component;
 
-@Component("stage7")
-public class Sha256Strategy implements EncryptStrategy{
+@Component("stage8")
+public class DesStrategy implements EncryptStrategy{
     public String encrypt(String plainText, String key) {
-        return "test SHA-256 encryption";
+        return "test DES encryption";
     }
 
     public String decrypt(String cipherText, String key) {
-        return "test SHA-256 decryption";
+        return "test DES decryption";
     }
 }
