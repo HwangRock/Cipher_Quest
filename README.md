@@ -100,4 +100,7 @@ MA로 API 연결과 배포에서 용이하게 하기 위해서 MA로 구축하�
 # 프로젝트 결과물
 
 ## root directory
-![](./product/root_direc.png)
+![](./product/root.png)
+
+## 스테이지 선택 창
+![](./product/selectstage.png)
