@@ -1,4 +1,3 @@
-/* Body 스타일 */
 body {
     font-family: 'Cormorant', serif;
     margin: 0;
@@ -6,46 +5,68 @@ body {
     background-color: #f4f4f9;
 }
 
-/* 헤더 스타일 */
 .header {
-    background-color: #333; /* 검은 바탕 */
-    color: #fff; /* 흰 글자 */
+    background-color: #333;
+    color: #fff;
     text-align: left;
-    padding: 10px 20px; /* 상하, 좌우 여백 */
+    padding: 10px 20px;
     font-size: 24px;
-    position: sticky; /* 상단 고정 */
-    top: 0;
-    left: 0;
-    z-index: 1000;
 }
 
-/* 스테이지 컨테이너 */
 .stage-container {
-    margin: 40px auto;
+    margin: 20px auto;
     padding: 20px;
     width: 90%;
     max-width: 800px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    text-align: center; /* 내용 가운데 정렬 */
+    text-align: center;
 }
 
-/* 스테이지 헤더 */
-.stage-header h2 {
+.stage-container h2 {
     font-size: 32px;
-    margin-bottom: 10px;
     color: #444;
+    font-family: 'Jua', sans-serif; /* 귀여운 폰트 적용 */
 }
 
-.stage-header p {
+.stage-container p {
     font-size: 18px;
-    font-family: 'Do Hyeon', sans-serif; /* 귀여운 폰트 */
     color: #666;
+    font-family: 'Jua', sans-serif; /* 귀여운 폰트 적용 */
     margin-bottom: 20px;
 }
 
-/* 스테이지 그리드 */
+/* 텍스트 필드 스타일 */
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Jua', sans-serif; /* 귀여운 폰트 적용 */
+    color: #333;
+    background-color: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+input[type="text"]:focus {
+    border-color: #007bff;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+}
+
+label {
+    font-family: 'Cormorant', serif;
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
+
 .stage-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -53,8 +74,8 @@ body {
     padding: 10px;
 }
 
-/* 버튼 스타일 */
-.stage-grid button {
+.stage-grid button,
+form button {
     padding: 10px 15px;
     font-size: 16px;
     background-color: #007bff;
@@ -65,14 +86,14 @@ body {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* 버튼 호버 효과 */
-.stage-grid button:hover {
+.stage-grid button:hover,
+form button:hover {
     background-color: #0056b3;
     transform: translateY(-3px);
 }
 
-/* 버튼 활성화 효과 */
-.stage-grid button:active {
+.stage-grid button:active,
+form button:active {
     background-color: #003f8a;
     transform: translateY(0);
 }

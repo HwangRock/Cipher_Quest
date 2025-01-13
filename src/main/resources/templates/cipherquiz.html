@@ -4,33 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>스테이지 선택</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Do+Hyeon&display=swap" rel="stylesheet">
-    <link href="/css/stage.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/stage.css">
+    <script>
+        // JavaScript로 stageId를 저장하고, 다음 화면으로 데이터를 전달
+        function selectStage(stageId) {
+            const stageContainer = document.getElementById("stage-container");
+            const formContainer = document.getElementById("form-container");
+
+            // 스테이지 선택 화면 숨기고 입력 폼 보여줌
+            stageContainer.style.display = "none";
+            formContainer.style.display = "block";
+
+            // 선택된 stageId를 hidden input에 저장
+            document.getElementById("stage-id").value = stageId;
+        }
+
+        // 입력값을 DTO로 만들어 POST 요청 전송
+        async function submitData() {
+            const stageId = document.getElementById("stage-id").value;
+            const plainText = document.getElementById("plain-text").value;
+            const key = document.getElementById("key").value;
+
+            if (!plainText || !key) {
+                alert("평문과 키를 모두 입력해주세요!");
+                return;
+            }
+
+            // DTO 생성
+            const data = {
+                stageId: stageId,
+                submitPlainText: plainText,
+                key: key
+            };
+
+            try {
+                const response = await fetch("/create", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert("데이터가 성공적으로 저장되었습니다!");
+                } else {
+                    alert("오류 발생: " + result.error);
+                }
+            } catch (error) {
+                alert("네트워크 오류 발생: " + error.message);
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="header">
     <h1>Cipher Quest</h1>
 </div>
-<div class="stage-container">
-    <div class="stage-header">
-        <h2>Select Stage!</h2>
-        <p>스테이지가 높아질수록 더 어려운 암호화 방식이 기다립니다. 처음부터 차근차근 도전해보세요!</p>
-    </div>
+
+<!-- 스테이지 선택 화면 -->
+<div id="stage-container" class="stage-container">
+    <h2>스테이지 선택</h2>
+    <p>스테이지가 높아질수록 더 어려운 암호화 방식이 기다립니다. 처음부터 차근차근 도전해보세요!</p>
     <div class="stage-grid">
-        <button onclick="location.href='/stage1'">Stage 1</button>
-        <button onclick="location.href='/stage2'">Stage 2</button>
-        <button onclick="location.href='/stage3'">Stage 3</button>
-        <button onclick="location.href='/stage4'">Stage 4</button>
-        <button onclick="location.href='/stage5'">Stage 5</button>
-        <button onclick="location.href='/stage6'">Stage 6</button>
-        <button onclick="location.href='/stage7'">Stage 7</button>
-        <button onclick="location.href='/stage8'">Stage 8</button>
-        <button onclick="location.href='/stage9'">Stage 9</button>
-        <button onclick="location.href='/stage10'">Stage 10</button>
-        <button onclick="location.href='/stage11'">Stage 11</button>
-        <button onclick="location.href='/stage12'">Stage 12</button>
+        <button onclick="selectStage('stage1')">Stage 1</button>
+        <button onclick="selectStage('stage2')">Stage 2</button>
+        <button onclick="selectStage('stage3')">Stage 3</button>
+        <button onclick="selectStage('stage4')">Stage 4</button>
+        <button onclick="selectStage('stage5')">Stage 5</button>
+        <button onclick="selectStage('stage6')">Stage 6</button>
+        <button onclick="selectStage('stage7')">Stage 7</button>
+        <button onclick="selectStage('stage8')">Stage 8</button>
+        <button onclick="selectStage('stage9')">Stage 9</button>
+        <button onclick="selectStage('stage10')">Stage 10</button>
+        <button onclick="selectStage('stage11')">Stage 11</button>
+        <button onclick="selectStage('stage12')">Stage 12</button>
     </div>
+</div>
+
+<!-- 평문/키 입력 화면 -->
+<div id="form-container" class="stage-container" style="display: none;">
+    <h2>암호화에 쓰일 평문과 키를 입력해주세요!</h2>
+    <form onsubmit="event.preventDefault(); submitData();">
+        <input type="hidden" id="stage-id">
+
+        <label for="plain-text"></label>
+        <input type="text" id="plain-text" placeholder="평문을 입력하세요">
+
+        <label for="key"></label>
+        <input type="text" id="key" placeholder="키를 입력하세요">
+        <br>
+        <button type="submit">완료</button>
+    </form>
 </div>
 </body>
 </html>
