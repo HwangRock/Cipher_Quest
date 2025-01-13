@@ -1,0 +1,78 @@
+/* Body 스타일 */
+body {
+    font-family: 'Cormorant', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+/* 헤더 스타일 */
+.header {
+    background-color: #333; /* 검은 바탕 */
+    color: #fff; /* 흰 글자 */
+    text-align: left;
+    padding: 10px 20px; /* 상하, 좌우 여백 */
+    font-size: 24px;
+    position: sticky; /* 상단 고정 */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* 스테이지 컨테이너 */
+.stage-container {
+    margin: 40px auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center; /* 내용 가운데 정렬 */
+}
+
+/* 스테이지 헤더 */
+.stage-header h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.stage-header p {
+    font-size: 18px;
+    font-family: 'Do Hyeon', sans-serif; /* 귀여운 폰트 */
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* 스테이지 그리드 */
+.stage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 10px;
+}
+
+/* 버튼 스타일 */
+.stage-grid button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* 버튼 호버 효과 */
+.stage-grid button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+/* 버튼 활성화 효과 */
+.stage-grid button:active {
+    background-color: #003f8a;
+    transform: translateY(0);
+}

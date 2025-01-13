@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스테이지 선택</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Do+Hyeon&display=swap" rel="stylesheet">
+    <link href="/css/stage.css" rel="stylesheet">
 </head>
 <body>
-
+<div class="header">
+    <h1>Cipher Quest</h1>
+</div>
+<div class="stage-container">
+    <div class="stage-header">
+        <h2>Select Stage!</h2>
+        <p>스테이지가 높아질수록 더 어려운 암호화 방식이 기다립니다. 처음부터 차근차근 도전해보세요!</p>
+    </div>
+    <div class="stage-grid">
+        <button onclick="location.href='/stage1'">Stage 1</button>
+        <button onclick="location.href='/stage2'">Stage 2</button>
+        <button onclick="location.href='/stage3'">Stage 3</button>
+        <button onclick="location.href='/stage4'">Stage 4</button>
+        <button onclick="location.href='/stage5'">Stage 5</button>
+        <button onclick="location.href='/stage6'">Stage 6</button>
+        <button onclick="location.href='/stage7'">Stage 7</button>
+        <button onclick="location.href='/stage8'">Stage 8</button>
+        <button onclick="location.href='/stage9'">Stage 9</button>
+        <button onclick="location.href='/stage10'">Stage 10</button>
+        <button onclick="location.href='/stage11'">Stage 11</button>
+        <button onclick="location.href='/stage12'">Stage 12</button>
+    </div>
+</div>
 </body>
 </html>
