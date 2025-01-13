@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퀴즈 진행</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/onquiz.css">
+</head>
+<body>
+<div class="header">
+    <h1>Cipher Quest</h1>
+</div>
+
+<div class="quiz-container">
+    <h2>스테이지 진행 중...</h2>
+    <!-- 제한 시간 표시 -->
+    <div class="timer-display" id="timer">제한 시간: 60:00</div>
+    <!-- 암호문 표시 -->
+    <p id="cipher-text">암호문: <span th:text="${cipher}">암호문을 불러오는 중...</span></p>
+
+    <form th:action="@{/quiz/{stageId}/submit(stageId=${stageId})}" method="post">
+        <label for="submit-answer"></label>
+        <input type="text" id="submit-answer" name="submitAnswer" placeholder="해독 결과 입력해주세요!" required>
+        <button type="submit">제출</button>
+    </form>
+</div>
+
+<script>
+    // 제한 시간 카운트다운 (초 단위로 설정)
+    const totalSeconds = 3600; // 1시간 = 3600초
+    let remainingSeconds = totalSeconds;
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+        const timerElement = document.getElementById("timer");
+        timerElement.innerText = `제한 시간: ${formatTime(remainingSeconds)}`;
+
+        const timerInterval = setInterval(() => {
+            remainingSeconds--;
+            timerElement.innerText = `제한 시간: ${formatTime(remainingSeconds)}`;
+
+            if (remainingSeconds <= 0) {
+                clearInterval(timerInterval);
+                alert("제한 시간이 종료되었습니다!");
+                timerElement.innerText = "제한 시간: 00:00";
+            }
+        }, 1000);
+    }
+
+    // 타이머 시작
+    window.onload = startTimer;
+</script>
+</body>
+</html>

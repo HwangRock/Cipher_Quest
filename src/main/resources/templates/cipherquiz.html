@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/stage.css">
     <script>
-        // JavaScript로 stageId를 저장하고, 다음 화면으로 데이터를 전달
         function selectStage(stageId) {
             const stageContainer = document.getElementById("stage-container");
             const formContainer = document.getElementById("form-container");
@@ -19,44 +18,6 @@
 
             // 선택된 stageId를 hidden input에 저장
             document.getElementById("stage-id").value = stageId;
-        }
-
-        // 입력값을 DTO로 만들어 POST 요청 전송
-        async function submitData() {
-            const stageId = document.getElementById("stage-id").value;
-            const plainText = document.getElementById("plain-text").value;
-            const key = document.getElementById("key").value;
-
-            if (!plainText || !key) {
-                alert("평문과 키를 모두 입력해주세요!");
-                return;
-            }
-
-            // DTO 생성
-            const data = {
-                stageId: stageId,
-                submitPlainText: plainText,
-                key: key
-            };
-
-            try {
-                const response = await fetch("/create", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-                if (response.ok) {
-                    alert("데이터가 성공적으로 저장되었습니다!");
-                } else {
-                    alert("오류 발생: " + result.error);
-                }
-            } catch (error) {
-                alert("네트워크 오류 발생: " + error.message);
-            }
         }
     </script>
 </head>
@@ -88,17 +49,20 @@
 <!-- 평문/키 입력 화면 -->
 <div id="form-container" class="stage-container" style="display: none;">
     <h2>암호화에 쓰일 평문과 키를 입력해주세요!</h2>
-    <form onsubmit="event.preventDefault(); submitData();">
-        <input type="hidden" id="stage-id">
+    <form th:action="@{/quiz}" method="get">
+        <!-- stageId를 hidden input에 저장 -->
+        <input type="hidden" id="stage-id" name="stageId">
 
         <label for="plain-text"></label>
-        <input type="text" id="plain-text" placeholder="평문을 입력하세요">
+        <input type="text" id="plain-text" name="plainText" placeholder="평문을 입력하세요" required>
 
         <label for="key"></label>
-        <input type="text" id="key" placeholder="키를 입력하세요">
-        <br>
+        <input type="text" id="key" name="key" placeholder="키를 입력하세요" required>
+
+        <br><br>
         <button type="submit">완료</button>
     </form>
 </div>
+
 </body>
 </html>

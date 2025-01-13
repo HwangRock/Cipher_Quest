@@ -20,7 +20,8 @@ public class EncryptService {
     public String Encrypt(String id, String text, String key) {
         EncryptStrategy strategy = strategyMap.get(id);
         if (strategy == null) {
-            log.error("strategy is null");
+            log.error("strategy is null for id: {}", id);
+            throw new IllegalArgumentException("암호화 전략을 찾을 수 없습니다: " + id);
         }
         return strategy.encrypt(text, key);
     }
