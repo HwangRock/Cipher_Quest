@@ -7,19 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/stage.css">
-    <script>
-        function selectStage(stageId) {
-            const stageContainer = document.getElementById("stage-container");
-            const formContainer = document.getElementById("form-container");
-
-            // 스테이지 선택 화면 숨기고 입력 폼 보여줌
-            stageContainer.style.display = "none";
-            formContainer.style.display = "block";
-
-            // 선택된 stageId를 hidden input에 저장
-            document.getElementById("stage-id").value = stageId;
-        }
-    </script>
+    <script src="/js/stage.js"></script>
 </head>
 <body>
 <div class="header">
