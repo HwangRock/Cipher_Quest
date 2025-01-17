@@ -19,13 +19,22 @@
     <div class="timer-display" id="timer">제한 시간: 60:00</div>
     <p id="cipher-text">암호문: <span id="cipher-data">암호문을 로드 중...</span></p>
 
-    <form id="quiz-form">
+    <!-- 기본 form 동작 제거 -->
+    <form id="quiz-form" onsubmit="return false;">
         <label for="submit-answer"></label>
         <input type="text" id="submit-answer" name="submitAnswer" placeholder="해독 결과 입력해주세요!" required aria-label="해독 결과 입력">
         <button id="submit-verify-btn" type="button" aria-label="결과 제출 및 검증">제출</button>
     </form>
 
     <div id="result" class="result-message"></div>
+</div>
+
+<div id="correct-popup" class="popup" style="display: none;">
+    <div class="popup-content">
+        <p>정답입니다~!</p>
+        <p>수고하셨습니다!</p>
+        <button id="stage-select-btn">스테이지 선택 창으로</button>
+    </div>
 </div>
 </body>
 </html>

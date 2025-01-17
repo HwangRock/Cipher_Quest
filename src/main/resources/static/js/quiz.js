@@ -62,15 +62,7 @@ function loadCipherText(stageId) {
 
 // 제출 및 검증 함수
 async function handleFormSubmit(event) {
-    event.preventDefault(); // 폼의 기본 제출 동작 막기
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const stageId = urlParams.get("stageId");
-
-    if (!stageId) {
-        alert("스테이지 ID가 지정되지 않았습니다!");
-        throw new Error("Missing stageId in URL");
-    }
+    event.preventDefault();
 
     const submitAnswer = document.getElementById("submit-answer").value.trim();
     const resultElement = document.getElementById("result");
@@ -81,7 +73,6 @@ async function handleFormSubmit(event) {
     }
 
     try {
-        // 1. 제출 데이터를 서버에 저장
         console.log("제출 데이터 전송...");
         const submitResponse = await fetch(`/api/stage/${stageId}/submit`, {
             method: "POST",
@@ -90,10 +81,10 @@ async function handleFormSubmit(event) {
             },
             body: JSON.stringify({
                 stageId: stageId,
-                submitDecryptText: submitAnswer, // 올바른 필드명으로 수정
-                submitPlainText: null,          // 필요하지 않을 경우 null
-                key: null,                      // 필요하지 않을 경우 null
-                nextStageId: null,              // 필요하지 않을 경우 null
+                submitDecryptText: submitAnswer,
+                submitPlainText: null,
+                key: null,
+                nextStageId: null,
             }),
         });
 
@@ -103,10 +94,11 @@ async function handleFormSubmit(event) {
         }
 
         console.log("제출 성공. 검증 시작...");
-
-        // 2. 검증 API 호출
         const verifyResponse = await fetch(`/api/stage/${stageId}/verify`, {
             method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
 
         if (!verifyResponse.ok) {
@@ -114,32 +106,53 @@ async function handleFormSubmit(event) {
             throw new Error(errorData.error || "검증 실패");
         }
 
-        const verifyData = await verifyResponse.json();
-        const { isCorrect, message } = verifyData; // StageResponseDTO에 맞게 데이터 구조 변경
-        resultElement.textContent = message;
-        resultElement.style.color = isCorrect ? "green" : "red"; // 정답 여부에 따라 색상 변경
+        const verifyData = await verifyResponse.json(); // 전체 JSON 데이터 가져오기
+        console.log("검증 결과:", verifyData); // 응답 데이터 확인
 
+        const { correct, message } = verifyData;
+        console.log("검증 결과:", verifyData);
+
+        if (correct) {
+            // 정답일 때 팝업 표시
+            const popup = document.getElementById("correct-popup");
+            console.log("팝업 요소:", popup);
+            popup.style.display = "flex";
+        } else {
+            resultElement.textContent = message;
+            resultElement.style.color = "red";
+        }
     } catch (error) {
         console.error("제출 및 검증 오류:", error);
         resultElement.textContent = "서버와 통신 중 오류가 발생했습니다.";
         resultElement.style.color = "red";
     }
+
 }
 
+// 팝업 닫기 이벤트 등록
+function initializePopupEvents() {
+    const stageSelectBtn = document.getElementById("stage-select-btn");
+    const popup = document.getElementById("correct-popup");
+
+    if (stageSelectBtn && popup) {
+        stageSelectBtn.addEventListener("click", () => {
+            console.log("팝업 닫기 버튼 클릭");
+            popup.style.display = "none"; // 팝업 숨기기
+        });
+    } else {
+        console.error("팝업 또는 버튼 요소가 없습니다!");
+    }
+}
 
 // 페이지 로드 시 실행
 window.onload = () => {
     if (stageId) {
         startTimer(); // 타이머 시작
         loadCipherText(stageId); // 암호문 로드
+        initializePopupEvents(); // 팝업 이벤트 초기화
 
-        // 폼 제출 이벤트 리스너 등록
-        const form = document.getElementById("quiz-form");
-        form.addEventListener("submit", handleFormSubmit);
-
-        // 버튼 클릭 이벤트 리스너 등록
+        // 제출 버튼 클릭 이벤트 등록
         const submitButton = document.getElementById("submit-verify-btn");
         submitButton.addEventListener("click", handleFormSubmit);
     }
 };
-
