@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>스테이지 선택</title>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <!-- CSS -->
     <link rel="stylesheet" href="/css/stage.css">
-    <script src="/js/stage.js"></script>
+    <!-- JavaScript -->
+    <script src="/js/stage.js" defer></script>
 </head>
 <body>
 <div class="header">
@@ -37,20 +40,16 @@
 <!-- 평문/키 입력 화면 -->
 <div id="form-container" class="stage-container" style="display: none;">
     <h2>암호화에 쓰일 평문과 키를 입력해주세요!</h2>
-    <form th:action="@{/quiz}" method="get">
-        <!-- stageId를 hidden input에 저장 -->
-        <input type="hidden" id="stage-id" name="stageId">
+    <input type="hidden" id="stage-id">
 
-        <label for="plain-text"></label>
-        <input type="text" id="plain-text" name="plainText" placeholder="평문을 입력하세요" required>
+    <label for="plain-text"></label>
+    <input type="text" id="plain-text" placeholder="평문을 입력하세요" required>
 
-        <label for="key"></label>
-        <input type="text" id="key" name="key" placeholder="키를 입력하세요" required>
+    <label for="key"></label>
+    <input type="text" id="key" placeholder="키를 입력하세요" required>
 
-        <br><br>
-        <button type="submit">완료</button>
-    </form>
+    <button id="encrypt-button" type="button">암호화</button>
+    <div id="loading" class="loading-message" style="display: none;">암호화 중입니다...</div>
 </div>
-
 </body>
 </html>
