@@ -151,11 +151,17 @@ public class StageController {
 
             if (submit.equals(answer)) {
                 return ResponseEntity.ok().body(
-                        ResponseDTO.builder().data(List.of("정답입니다.")).build()
+                        StageResponseDTO.builder()
+                                .isCorrect(true)
+                                .message("정답입니다.")
+                                .build()
                 );
             } else {
                 return ResponseEntity.ok().body(
-                        ResponseDTO.builder().data(List.of("오답입니다.")).build()
+                        StageResponseDTO.builder()
+                                .isCorrect(false)
+                                .message("오답입니다.")
+                                .build()
                 );
             }
 

@@ -115,9 +115,9 @@ async function handleFormSubmit(event) {
         }
 
         const verifyData = await verifyResponse.json();
-        const message = verifyData.data ? verifyData.data[0] : "결과를 불러올 수 없습니다.";
+        const { isCorrect, message } = verifyData; // StageResponseDTO에 맞게 데이터 구조 변경
         resultElement.textContent = message;
-        resultElement.style.color = message.includes("정답") ? "green" : "red";
+        resultElement.style.color = isCorrect ? "green" : "red"; // 정답 여부에 따라 색상 변경
 
     } catch (error) {
         console.error("제출 및 검증 오류:", error);
@@ -127,8 +127,6 @@ async function handleFormSubmit(event) {
 }
 
 
-
-// 페이지 로드 시 실행
 // 페이지 로드 시 실행
 window.onload = () => {
     if (stageId) {
