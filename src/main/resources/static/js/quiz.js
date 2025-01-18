@@ -113,7 +113,6 @@ async function handleFormSubmit(event) {
         console.log("검증 결과:", verifyData);
 
         if (correct) {
-            // 정답일 때 팝업 표시
             const popup = document.getElementById("correct-popup");
             console.log("팝업 요소:", popup);
             popup.style.display = "flex";
