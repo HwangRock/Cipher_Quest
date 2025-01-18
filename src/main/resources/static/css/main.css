@@ -71,33 +71,36 @@ body {
 .button-quiz {
     width: 800px; /* 버튼 가로 크기 */
     height: 218px; /* 버튼 세로 크기 */
-    font-size: 20px;
-    font-family: 'Do Hyeon', sans-serif;
+    font-size: 24px; /* 텍스트 크기 */
+    font-family: 'Jua', sans-serif; /* 폰트 변경 */
+    font-weight: bold;
     border: none;
     border-radius: 5px;
     background-image: url('../images/bt1_bg.png'); /* 버튼 배경 이미지 경로 */
     background-size: cover; /* 이미지를 버튼 크기에 맞춤 */
     background-repeat: no-repeat; /* 이미지 반복 방지 */
     background-position: center; /* 이미지 가운데 정렬 */
-    color: white;
+    color: white; /* 텍스트 색상 (하얀색) */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* 텍스트 그림자 */
     cursor: pointer;
     transition: transform 0.2s ease;
 }
-
 
 /* 랜덤 퀴즈 버튼 */
 .button-random {
     width: 800px; /* 버튼 가로 크기 */
     height: 218px; /* 버튼 세로 크기 */
-    font-size: 20px;
-    font-family: 'Do Hyeon', sans-serif;
+    font-size: 24px;
+    font-family: 'Gamja Flower', cursive; /* 폰트 변경 */
+    font-weight: bold;
     border: none;
     border-radius: 5px;
     background-image: url('../images/bt2_bg.png'); /* 랜덤 퀴즈 배경 이미지 경로 */
-    background-size: cover; /* 이미지 크기를 버튼 크기에 맞춤 */
-    background-repeat: no-repeat; /* 이미지 반복 방지 */
-    background-position: center; /* 이미지 가운데 정렬 */
-    color: white;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #ff0000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -106,15 +109,17 @@ body {
 .button-study {
     width: 800px; /* 버튼 가로 크기 */
     height: 218px; /* 버튼 세로 크기 */
-    font-size: 20px;
-    font-family: 'Do Hyeon', sans-serif;
+    font-size: 24px;
+    font-family: 'Cormorant', serif; /* 폰트 변경 */
+    font-weight: bold;
     border: none;
     border-radius: 5px;
     background-image: url('../images/bt3_bg.png'); /* 배경 이미지 경로 */
-    background-size: cover; /* 이미지 크기를 버튼 크기에 맞춤 */
-    background-repeat: no-repeat; /* 이미지 반복 방지 */
-    background-position: center; /* 이미지 가운데 정렬 */
-    color: white;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: black; /* 텍스트 색상 (검은색) */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.6); /* 텍스트 그림자 */
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -123,13 +128,12 @@ body {
 .button-quiz:hover,
 .button-random:hover,
 .button-study:hover {
-    background-color: #0056b3;
     transform: translateY(-2px);
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8); /* 호버 시 텍스트 그림자 강조 */
 }
 
 .button-quiz:active,
 .button-random:active,
 .button-study:active {
-    background-color: #003f8a;
     transform: translateY(0);
 }
