@@ -41,7 +41,7 @@ body {
 }
 
 .label {
-    font-family: 'Jua', sans-serif; /* 폰트 수정 */
+    font-family: 'Jua', sans-serif;
     font-size: 18px;
     color: #444;
     display: block;
@@ -112,7 +112,7 @@ button:active {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* 반투명 배경 */
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,30 +120,30 @@ button:active {
 
 .popup-content {
     background: #fff;
-    padding: 40px 50px; /* 패딩을 늘려 더 여유 있게 */
+    padding: 40px 50px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.5s ease;
-    width: 70%; /* 폭을 늘림 */
-    max-width: 600px; /* 최대 폭 설정 */
+    width: 70%;
+    max-width: 600px;
 }
 
 .popup-content p {
-    font-size: 20px; /* 텍스트 크기 증가 */
+    font-size: 20px;
     margin-bottom: 20px;
     font-family: 'Jua', sans-serif;
 }
 
 .popup-content button {
-    padding: 15px 30px; /* 버튼 크기 증가 */
+    padding: 15px 30px;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-family: 'Jua', sans-serif;
-    font-size: 18px; /* 버튼 글씨 크기 증가 */
+    font-size: 18px;
     transition: background-color 0.3s;
 }
 
@@ -155,10 +155,10 @@ button:active {
 .result-message {
     font-size: 18px;
     color: red;
-    font-family: 'Jua', sans-serif; /* 폰트 스타일 추가 */
+    font-family: 'Jua', sans-serif;
     margin-top: 15px;
     text-align: center;
-    font-weight: bold; /* 강조를 위해 추가 */
+    font-weight: bold;
 }
 
 

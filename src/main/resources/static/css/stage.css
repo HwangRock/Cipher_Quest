@@ -14,7 +14,6 @@ body {
     font-size: 24px;
 }
 
-/* 스테이지 컨테이너 스타일 */
 .stage-container {
     margin: 20px auto;
     padding: 20px;
@@ -39,15 +38,13 @@ body {
     margin-bottom: 20px;
 }
 
-/* 스테이지 버튼 배치 */
 .stage-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 한 행에 3개씩 배치 */
-    gap: 20px; /* 버튼 간 간격 */
-    justify-content: center; /* 버튼을 가운데 정렬 */
+    gap: 20px;
+    justify-content: center;
     padding: 20px 0;
 }
-
 
 .stage-grid button {
     padding: 10px 20px;
@@ -72,7 +69,6 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* 암호화 폼 스타일 */
 #form-container {
     text-align: center;
     margin-top: 20px;
@@ -106,9 +102,9 @@ body {
 }
 
 #encrypt-button {
-    display: block; /* 버튼을 블록 요소로 변경하여 줄바꿈 */
-    width: 85%; /* 텍스트 필드와 비슷한 폭으로 조정 */
-    margin: 15px auto; /* 텍스트 필드와 간격 및 가운데 정렬 */
+    display: block;
+    width: 85%;
+    margin: 15px auto;
     padding: 10px 15px;
     font-size: 16px;
     font-family: 'Jua', sans-serif;
@@ -131,8 +127,6 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-
-/* 로딩 메시지 */
 .loading-message {
     font-size: 18px;
     font-family: 'Jua', sans-serif;

@@ -106,8 +106,8 @@ async function handleFormSubmit(event) {
             throw new Error(errorData.error || "검증 실패");
         }
 
-        const verifyData = await verifyResponse.json(); // 전체 JSON 데이터 가져오기
-        console.log("검증 결과:", verifyData); // 응답 데이터 확인
+        const verifyData = await verifyResponse.json();
+        console.log("검증 결과:", verifyData);
 
         const { correct, message } = verifyData;
         console.log("검증 결과:", verifyData);
@@ -136,7 +136,7 @@ function initializePopupEvents() {
     if (stageSelectBtn && popup) {
         stageSelectBtn.addEventListener("click", () => {
             console.log("팝업 닫기 버튼 클릭");
-            popup.style.display = "none"; // 팝업 숨기기
+            popup.style.display = "none";
         });
     } else {
         console.error("팝업 또는 버튼 요소가 없습니다!");
@@ -146,9 +146,9 @@ function initializePopupEvents() {
 // 페이지 로드 시 실행
 window.onload = () => {
     if (stageId) {
-        startTimer(); // 타이머 시작
-        loadCipherText(stageId); // 암호문 로드
-        initializePopupEvents(); // 팝업 이벤트 초기화
+        startTimer();
+        loadCipherText(stageId);
+        initializePopupEvents();
 
         // 제출 버튼 클릭 이벤트 등록
         const submitButton = document.getElementById("submit-verify-btn");

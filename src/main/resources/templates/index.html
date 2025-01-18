@@ -1,37 +1,39 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cipher Quest</title>
-    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 <div class="header">
-    <h1>Cipher Quest</h1>
+    <h1 style="font-family: 'Cormorant', serif;">Cipher Quest</h1>
 </div>
-<div class="container">
+<div class="main-layout">
     <div class="text-section">
-        <p style="font-family: 'Do Hyeon', sans-serif; font-size: 22px; line-height: 1.8; text-align: center;">
-            암호와 친해지는 여정에 오신 걸 환영합니다!<br>
-            Cipher Quest가 여러분의 든든한 길잡이가 되어<br>
-            즐거운 암호 모험으로 안내할게요.<br><br>
-            Cipher Quest,<br>
-            여러분과 암호의 첫 만남을 응원합니다.
+        <p style="font-family: 'Gamja Flower', cursive;">
+            암호의 세계에 오신 것을 환영합니다! 🔐<br>
+            Cipher Quest에서 신나는 암호 모험이<br>
+            여러분을 기다리고 있어요.<br><br>
+            다양한 퀴즈와 공부를 통해<br>
+            암호 마스터가 되어보세요! 🎉<br><br>
+            우리와 함께 암호를 풀고<br>
+            새로운 세계를 탐험해봐요!
         </p>
     </div>
     <div class="button-section">
-        <a th:href="@{/cipherquiz}">
-            <button>암호 퀴즈</button>
+        <a href="/cipherquiz">
+            <button class="button-quiz">암호 퀴즈</button>
         </a>
-        <a th:href="@{/randomquiz}">
-            <button>랜덤 퀴즈</button>
+        <a href="/randomquiz">
+            <button class="button-random">랜덤 퀴즈</button>
         </a>
-        <a th:href="@{/studycipher}">
-            <button>암호 알고리즘 공부</button>
+        <a href="/studycipher">
+            <button class="button-study">암호 알고리즘 공부</button>
         </a>
     </div>
 </div>

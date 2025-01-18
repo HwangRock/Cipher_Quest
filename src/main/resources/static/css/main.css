@@ -1,81 +1,78 @@
-/* Body 기본 스타일 */
+/* Body 스타일 */
 body {
-    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-image: url('../images/background_image.png'); /* 배경 이미지 */
-    background-size: cover; /* 이미지 크기를 화면에 맞춤 */
-    background-repeat: no-repeat; /* 이미지 반복 방지 */
-    background-position: center; /* 이미지 가운데 정렬 */
-    background-attachment: fixed; /* 스크롤해도 배경 고정 */
+    font-family: 'Do Hyeon', sans-serif;
+    background-color: #f4f4f4;
 }
 
 /* 헤더 스타일 */
 .header {
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 40px;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .header h1 {
-    font-size: 64px;
     margin: 0;
-    color: #ffffff;
-    font-family: 'Dancing Script', cursive; /* 필기체 폰트 적용 */
+    font-size: 36px;
+    font-family: 'Cormorant', serif;
+    text-align: left;
 }
 
-/* 컨테이너 스타일 */
-.container {
+/* 메인 레이아웃 스타일 */
+.main-layout {
     display: flex;
-    width: 80%;
-    max-width: 1200px;
-    height: 60%;
-    background: linear-gradient(135deg, rgba(30, 60, 114, 0.8), rgba(42, 82, 152, 0.8)); /* 파란색 계열 그라데이션 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    backdrop-filter: blur(5px); /* 배경 사진과 조화롭게 */
-    color: #ffffff; /* 텍스트 흰색 */
+    margin-top: 60px; /* 헤더 높이 고려 */
+    height: calc(100vh - 60px); /* 화면 전체에서 헤더 제외 */
 }
 
-/* 텍스트 섹션 */
+/* 텍스트 섹션 스타일 */
 .text-section {
     flex: 1;
-    padding: 20px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    background-color: transparent; /* 투명 배경 */
-    color: #ffffff; /* 텍스트 흰색 */
-    font-family: 'Cormorant', serif; /* 고급스러운 폰트 */
-    font-size: 27px;
-    line-height: 1.5;
-    font-weight: 700; /* 글자 굵기 */
-}
-
-/* 버튼 섹션 */
-.button-section {
-    flex: 1;
-    padding: 20px;
-    padding-left: 300px; /* 버튼을 오른쪽으로 이동 */
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: transparent; /* 투명 배경 */
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: left;
+    font-family: 'Cormorant', serif;
+    font-size: 22px;
+    line-height: 1.8;
+    color: #333;
+    border-right: 2px solid #ddd; /* 구분선 추가 */
+    background-image: url('../images/text_bg.png'); /* 배경 이미지 경로 */
+    background-size: cover; /* 배경 이미지 크기를 맞춤 */
+    background-repeat: no-repeat; /* 이미지 반복 방지 */
+    background-position: center; /* 이미지 가운데 정렬 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
 }
 
 
-.button-section button {
-    width: 200px;
-    height: 50px;
-    font-size: 18px;
-    margin: 10px 0;
+/* 버튼 섹션 스타일 */
+.button-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; /* 버튼 간 간격 균등 */
+    align-items: flex-end; /* 버튼들을 오른쪽 끝으로 정렬 */
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+
+/* 암호 퀴즈 버튼 */
+.button-quiz {
+    width: 800px; /* 버튼 가로 크기 */
+    height: 218px; /* 버튼 세로 크기 */
+    font-size: 20px;
+    font-family: 'Do Hyeon', sans-serif;
     border: none;
     border-radius: 5px;
     background-color: #007bff;
@@ -84,13 +81,45 @@ body {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* 버튼 효과 */
-.button-section button:hover {
+/* 랜덤 퀴즈 버튼 */
+.button-random {
+    width: 800px;
+    height: 218px;
+    font-size: 20px;
+    font-family: 'Do Hyeon', sans-serif;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* 암호 알고리즘 공부 버튼 */
+.button-study {
+    width: 800px;
+    height: 218px;
+    font-size: 20px;
+    font-family: 'Do Hyeon', sans-serif;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* 공통 효과 */
+.button-quiz:hover,
+.button-random:hover,
+.button-study:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
 }
 
-.button-section button:active {
+.button-quiz:active,
+.button-random:active,
+.button-study:active {
     background-color: #003f8a;
     transform: translateY(0);
 }
