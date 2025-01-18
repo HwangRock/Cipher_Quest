@@ -6,6 +6,29 @@ body {
     background-color: #f4f4f4;
 }
 
+/* 애니메이션 키프레임 정의 */
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 /* 헤더 스타일 */
 .header {
     background-color: #333;
@@ -32,7 +55,7 @@ body {
     height: calc(100vh - 60px); /* 화면 전체에서 헤더 제외 */
 }
 
-/* 텍스트 섹션 스타일 */
+/* 텍스트 섹션에 애니메이션 적용 */
 .text-section {
     flex: 1;
     display: flex;
@@ -52,10 +75,11 @@ body {
     background-position: center; /* 이미지 가운데 정렬 */
     border-radius: 10px; /* 모서리 둥글게 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    animation: slideInFromLeft 1s ease-out; /* 왼쪽에서 슬라이드 애니메이션 */
 }
 
 
-/* 버튼 섹션 스타일 */
+/* 버튼 섹션에 애니메이션 적용 */
 .button-section {
     flex: 1;
     display: flex;
@@ -64,6 +88,7 @@ body {
     align-items: flex-end; /* 버튼들을 오른쪽 끝으로 정렬 */
     padding: 0px;
     box-sizing: border-box;
+    animation: slideInFromRight 1s ease-out; /* 오른쪽에서 슬라이드 애니메이션 */
 }
 
 
