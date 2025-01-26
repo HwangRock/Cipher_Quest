@@ -32,7 +32,7 @@ public class PlayfairStrategy implements EncryptStrategy{
         int before = 0;
 
         // 뒤에 추가됐을때 비알파벳 위치 조정
-        if (plainAlphabetsSize % 2 == 1 || nonAlphabetPositions.get(start)[0] == plainTextSize) {
+        if (plainAlphabetsSize % 2 == 1 && nonAlphabetPositions.get(start)[0] == plainTextSize-1) {
             for (int i = start; i >= 0; i--) {
                 if (i == start) {
                     before = plainTextSize-1;
