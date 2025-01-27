@@ -30,6 +30,19 @@ public class CeasarStrategy implements EncryptStrategy{
     }
 
     public String decrypt(String cipherText, String key){
-        return "test ceasar decryption";
+        int fin=cipherText.length();
+        int k=Integer.parseInt(key);
+        StringBuilder plainText=new StringBuilder();
+        for(int i=0;i<fin;i++){
+            char ch=cipherText.charAt(i);
+            if(ch>='a' &&ch<='z'){
+                plainText.append((char) ((ch-'a'-k+26)%26+'a'));
+            }
+            else{
+                plainText.append(ch);
+            }
+        }
+
+        return plainText.toString();
     }
 }
