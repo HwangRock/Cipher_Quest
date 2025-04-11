@@ -76,7 +76,7 @@ redis는 메모리 기반 DB이기에 불필요한 데이터의 삭제가 필수
 <br>
 
 ## System Architecture
-![](./presentation/cq_pa.png)
+![](./presentation/architecture.png)
 
 <br>
 
