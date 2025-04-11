@@ -2,11 +2,19 @@ package com.example.cipherquest.service;
 
 import com.example.cipherquest.persistence.StageRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.regex.*;
 
 @Slf4j
@@ -61,5 +69,35 @@ public class StageService {
         Pattern pattern=Pattern.compile("^[a-z0-9]+$");
         Matcher matcher=pattern.matcher(key);
         return matcher.matches();
+    }
+
+    public String crawling() throws IOException {
+        String str="";
+
+        String url = "https://en.wikipedia.org/wiki/Special:Random";
+        Document doc = Jsoup.connect(url).get();
+        Elements paragraphs = doc.select("div#mw-content-text > div.mw-parser-output > p");
+
+        List<String> sentences = new ArrayList<>();
+
+        for (Element p : paragraphs) {
+            String text = p.text().trim();
+
+            if (text.length() < 30){
+                continue;
+            }
+
+            String[] splitSentences = text.split("\\. ");
+            for (String s : splitSentences) {
+                if (s.length() > 20) {
+                    sentences.add(s.trim());
+                }
+            }
+        }
+
+        Random rand = new Random();
+        str=sentences.get(rand.nextInt(sentences.size())) + ".";
+
+        return str;
     }
 }
