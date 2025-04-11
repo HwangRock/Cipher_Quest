@@ -43,9 +43,17 @@ public class StageController {
 
     @PostMapping("/randomCreate")
     public ResponseEntity<?> createCrawl(@RequestBody StageRequestDTO requestDTO) throws IOException {
-        String s=stageService.crawling();
+        String crawlText=stageService.crawling();
 
-        return ResponseEntity.ok(new ResponseDTO<>(s));
+        String key="pri";//추후 스트래티지 패턴에 공통으로 넣어야함
+        if (key == null || key.isEmpty()) {
+            return ResponseEntity.badRequest().body("key가 비어 있습니다.");
+        }
+        if(stageService.checkKey(key)){
+            stageService.setToRedisWithTTL(requestDTO.getStageId(),crawlText, DURATION_TIME);
+            return ResponseEntity.ok().body("save to redis: plain text");
+        }
+        return ResponseEntity.ok(new ResponseDTO<>(crawlText));
     }
 
     @GetMapping("/{id}/giveup")
