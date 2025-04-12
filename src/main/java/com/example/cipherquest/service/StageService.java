@@ -2,6 +2,7 @@ package com.example.cipherquest.service;
 
 import com.example.cipherquest.persistence.StageRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -73,34 +74,40 @@ public class StageService {
 
     public String crawling() throws IOException {
         String str="";
-
         while(true) {
-            String url = "https://en.wikipedia.org/wiki/Special:Random";
-            Document doc = Jsoup.connect(url).get();
-            Elements paragraphs = doc.select("div#mw-content-text > div.mw-parser-output > p");
+            try{
+                String url = "https://en.wikipedia.org/wiki/Special:Random";
+                Document doc = Jsoup.connect(url)
+                        .userAgent("Mozilla/5.0")
+                        .get();
+                Elements paragraphs = doc.select("div#mw-content-text > div.mw-parser-output > p");
 
-            List<String> sentences = new ArrayList<>();
+                List<String> sentences = new ArrayList<>();
 
-            for (Element p : paragraphs) {
-                String text = p.text().trim();
+                for (Element p : paragraphs) {
+                    String text = p.text().trim();
 
-                int txtLen = text.length();
-                if (txtLen < 30 || txtLen > 200) {
-                    continue;
-                }
+                    int txtLen = text.length();
+                    if (txtLen < 30 || txtLen > 250) {
+                        continue;
+                    }
 
-                String[] splitSentences = text.split("\\. ");
-                for (String s : splitSentences) {
-                    if (s.length() > 20) {
-                        sentences.add(s.trim());
+                    String[] splitSentences = text.split("\\. ");
+                    for (String s : splitSentences) {
+                        if (s.length() > 20) {
+                            sentences.add(s.trim());
+                        }
                     }
                 }
-            }
 
-            Random rand = new Random();
-            if(sentences.size()!=0){
-                str = sentences.get(rand.nextInt(sentences.size())) + ".";
-                break;
+                Random rand = new Random();
+                if(sentences.size()!=0){
+                    str = sentences.get(rand.nextInt(sentences.size())) + ".";
+                    break;
+                }
+            }catch(HttpStatusException e){
+                log.warn("404 error: dont find page. try again..");
+                continue;
             }
         }
         return str;
