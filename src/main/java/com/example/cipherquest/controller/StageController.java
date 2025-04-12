@@ -51,7 +51,8 @@ public class StageController {
         }
         if(stageService.checkKey(key)){
             stageService.setToRedisWithTTL(requestDTO.getStageId(),crawlText, DURATION_TIME);
-            return ResponseEntity.ok().body("save to redis: plain text");
+            return ResponseEntity.ok(new ResponseDTO<>(crawlText));
+            //return ResponseEntity.ok().body("save to redis: plain text");
         }
         return ResponseEntity.ok(new ResponseDTO<>(crawlText));
     }

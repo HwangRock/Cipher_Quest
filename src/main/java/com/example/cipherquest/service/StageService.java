@@ -74,30 +74,35 @@ public class StageService {
     public String crawling() throws IOException {
         String str="";
 
-        String url = "https://en.wikipedia.org/wiki/Special:Random";
-        Document doc = Jsoup.connect(url).get();
-        Elements paragraphs = doc.select("div#mw-content-text > div.mw-parser-output > p");
+        while(true) {
+            String url = "https://en.wikipedia.org/wiki/Special:Random";
+            Document doc = Jsoup.connect(url).get();
+            Elements paragraphs = doc.select("div#mw-content-text > div.mw-parser-output > p");
 
-        List<String> sentences = new ArrayList<>();
+            List<String> sentences = new ArrayList<>();
 
-        for (Element p : paragraphs) {
-            String text = p.text().trim();
+            for (Element p : paragraphs) {
+                String text = p.text().trim();
 
-            if (text.length() < 30){
-                continue;
-            }
+                int txtLen = text.length();
+                if (txtLen < 30 || txtLen > 200) {
+                    continue;
+                }
 
-            String[] splitSentences = text.split("\\. ");
-            for (String s : splitSentences) {
-                if (s.length() > 20) {
-                    sentences.add(s.trim());
+                String[] splitSentences = text.split("\\. ");
+                for (String s : splitSentences) {
+                    if (s.length() > 20) {
+                        sentences.add(s.trim());
+                    }
                 }
             }
+
+            Random rand = new Random();
+            if(sentences.size()!=0){
+                str = sentences.get(rand.nextInt(sentences.size())) + ".";
+                break;
+            }
         }
-
-        Random rand = new Random();
-        str=sentences.get(rand.nextInt(sentences.size())) + ".";
-
         return str;
     }
 }
