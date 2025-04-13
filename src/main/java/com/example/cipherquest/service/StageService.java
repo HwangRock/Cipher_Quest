@@ -72,6 +72,7 @@ public class StageService {
         return matcher.matches();
     }
 
+    // 위키피디아에서 랜덤으로 올바른 페이지를 찾을때까지 찾고 크롤링.
     public String crawling() throws IOException {
         String str="";
         while(true) {
@@ -87,26 +88,35 @@ public class StageService {
                 for (Element p : paragraphs) {
                     String text = p.text().trim();
 
+                    text = text.replaceAll("\\[\\d+\\]", ""); //[]를 제거해서 올바르게 파싱
+
                     int txtLen = text.length();
-                    if (txtLen < 30 || txtLen > 250) {
+                    if (txtLen < 30 || txtLen > 250) { // 적당한 길이
                         continue;
                     }
 
                     String[] splitSentences = text.split("\\. ");
                     for (String s : splitSentences) {
+                        s = s.trim();
                         if (s.length() > 20) {
-                            sentences.add(s.trim());
+                            if(s.endsWith(".")){
+                                sentences.add(s);
+                            }
+                            else{
+                                sentences.add(s+".");
+                            }
                         }
                     }
                 }
 
+
                 Random rand = new Random();
                 if(sentences.size()!=0){
-                    str = sentences.get(rand.nextInt(sentences.size())) + ".";
+                    str = sentences.get(rand.nextInt(sentences.size()));
                     break;
                 }
             }catch(HttpStatusException e){
-                log.warn("404 error: dont find page. try again..");
+                log.warn("404 error: dont find page. try again.."); // 페이지 못찾았으면 다시 크롤링
                 continue;
             }
         }
