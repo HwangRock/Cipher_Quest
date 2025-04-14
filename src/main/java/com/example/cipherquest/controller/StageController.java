@@ -1,5 +1,6 @@
 package com.example.cipherquest.controller;
 
+import com.example.cipherquest.dto.CrawlResponseDTO;
 import com.example.cipherquest.dto.ResponseDTO;
 import com.example.cipherquest.dto.StageRequestDTO;
 import com.example.cipherquest.dto.StageResponseDTO;
@@ -43,7 +44,14 @@ public class StageController {
 
     @PostMapping("/randomCreate")
     public ResponseEntity<?> createCrawl(@RequestBody StageRequestDTO requestDTO) throws IOException {
-        String crawlText=stageService.crawling();
+        String crawl[]=stageService.crawling();
+        String crawlText=crawl[0];
+        String source=crawl[1];
+
+        CrawlResponseDTO response=CrawlResponseDTO.builder()
+                .crawlText(crawlText)
+                .sourceText(source)
+                .build();
 
         String key="pri";//추후 스트래티지 패턴에 공통으로 넣어야함
         if (key == null || key.isEmpty()) {
@@ -51,10 +59,10 @@ public class StageController {
         }
         if(stageService.checkKey(key)){
             stageService.setToRedisWithTTL(requestDTO.getStageId(),crawlText, DURATION_TIME);
-            return ResponseEntity.ok(new ResponseDTO<>(crawlText));
+            return ResponseEntity.ok(new ResponseDTO<>(response));
             //return ResponseEntity.ok().body("save to redis: plain text");
         }
-        return ResponseEntity.ok(new ResponseDTO<>(crawlText));
+        return ResponseEntity.ok(new ResponseDTO<>(response));
     }
 
     @GetMapping("/{id}/giveup")

@@ -73,14 +73,17 @@ public class StageService {
     }
 
     // 위키피디아에서 랜덤으로 올바른 페이지를 찾을때까지 찾고 크롤링.
-    public String crawling() throws IOException {
+    public String[] crawling() throws IOException {
         String str="";
+        String sourceUrl = "";
         while(true) {
             try{
                 String url = "https://en.wikipedia.org/wiki/Special:Random";
                 Document doc = Jsoup.connect(url)
                         .userAgent("Mozilla/5.0")
                         .get();
+
+                sourceUrl = doc.location();
                 Elements paragraphs = doc.select("div#mw-content-text > div.mw-parser-output > p");
 
                 List<String> sentences = new ArrayList<>();
@@ -120,6 +123,6 @@ public class StageService {
                 continue;
             }
         }
-        return str;
+        return new String[]{str,sourceUrl};
     }
 }
