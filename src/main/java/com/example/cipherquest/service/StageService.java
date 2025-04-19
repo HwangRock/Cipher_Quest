@@ -102,6 +102,10 @@ public class StageService {
                     for (String s : splitSentences) {
                         s = s.trim();
                         if (s.length() > 20) {
+                            if (!s.matches("^[a-zA-Z0-9 ,.'\"\\-()\\[\\]?!:;]+$")){
+                                continue;
+                            }
+
                             if(s.endsWith(".")){
                                 sentences.add(s);
                             }
