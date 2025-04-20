@@ -3,6 +3,8 @@ package com.example.cipherquest.cipher;
 
 import org.springframework.stereotype.Component;
 
+import java.security.SecureRandom;
+
 @Component("stage5")
 public class RailfenceStrategy implements EncryptStrategy {
     public String encrypt(String plainText, String key) {
@@ -60,6 +62,9 @@ public class RailfenceStrategy implements EncryptStrategy {
     }
 
     public String createRandomKey(){
-        return "key";
+        SecureRandom secureRandom = new SecureRandom();
+        int rand = secureRandom.nextInt(26)+1;
+        String key=String.valueOf(rand);
+        return key;
     }
 }

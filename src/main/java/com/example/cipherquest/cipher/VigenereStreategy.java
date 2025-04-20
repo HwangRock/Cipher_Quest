@@ -2,6 +2,7 @@ package com.example.cipherquest.cipher;
 
 
 import org.springframework.stereotype.Component;
+import java.security.SecureRandom;
 
 @Component("stage2")
 public class VigenereStreategy implements EncryptStrategy {
@@ -39,6 +40,13 @@ public class VigenereStreategy implements EncryptStrategy {
     }
 
     public String createRandomKey(){
-        return "key";
+        SecureRandom secureRandom = new SecureRandom();
+        StringBuilder key=new StringBuilder();
+        int keyLen = secureRandom.nextInt(10)+5;
+        for(int i=0;i<keyLen;i++){
+            int n=secureRandom.nextInt(26);
+            key.append((char)n+'a');
+        }
+        return key.toString();
     }
 }
