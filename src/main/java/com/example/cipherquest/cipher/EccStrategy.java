@@ -11,4 +11,8 @@ public class EccStrategy implements EncryptStrategy{
     public String decrypt(String cipherText, String key) {
         return "test ECC decryption";
     }
+
+    public String createRandomKey(){
+        return "key";
+    }
 }

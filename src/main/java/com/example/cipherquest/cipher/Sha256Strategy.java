@@ -11,4 +11,8 @@ public class Sha256Strategy implements EncryptStrategy{
     public String decrypt(String cipherText, String key) {
         return "test SHA-256 decryption";
     }
+
+    public String createRandomKey(){
+        return "key";
+    }
 }

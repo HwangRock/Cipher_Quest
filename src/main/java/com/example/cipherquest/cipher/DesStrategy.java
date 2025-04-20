@@ -11,4 +11,8 @@ public class DesStrategy implements EncryptStrategy{
     public String decrypt(String cipherText, String key) {
         return "test DES decryption";
     }
+
+    public String createRandomKey(){
+        return "key";
+    }
 }

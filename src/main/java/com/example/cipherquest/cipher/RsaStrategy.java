@@ -11,4 +11,8 @@ public class RsaStrategy implements EncryptStrategy{
     public String decrypt(String cipherText, String key) {
         return "test RSA decrypt";
     }
+
+    public String createRandomKey(){
+        return "key";
+    }
 }

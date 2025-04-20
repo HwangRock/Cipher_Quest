@@ -58,4 +58,8 @@ public class RailfenceStrategy implements EncryptStrategy {
     public String decrypt(String cipherText, String key) {
         return "test rail fence";
     }
+
+    public String createRandomKey(){
+        return "key";
+    }
 }

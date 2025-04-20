@@ -34,10 +34,11 @@ public class VigenereStreategy implements EncryptStrategy {
         return encryptedText.toString();
     }
 
-
-
-
     public String decrypt(String cipherText, String key) {
         return "test Vigenere";
+    }
+
+    public String createRandomKey(){
+        return "key";
     }
 }

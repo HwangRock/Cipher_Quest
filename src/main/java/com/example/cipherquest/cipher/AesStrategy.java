@@ -11,4 +11,7 @@ public class AesStrategy implements EncryptStrategy {
     public String decrypt(String cipherText, String key) {
         return "test AES decryption";
     }
+    public String createRandomKey(){
+        return "key";
+    }
 }

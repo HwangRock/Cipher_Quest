@@ -11,4 +11,8 @@ public class HillStrategy implements EncryptStrategy{
     public String decrypt(String cipherText, String key) {
         return "test hill";
     }
+
+    public String createRandomKey(){
+        return "key";
+    }
 }

@@ -157,4 +157,8 @@ public class PlayfairStrategy implements EncryptStrategy{
     public String decrypt(String cipherText, String key) {
         return "test playfair";
     }
+
+    public String createRandomKey(){
+        return "key";
+    }
 }

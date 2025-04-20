@@ -45,4 +45,8 @@ public class CeasarStrategy implements EncryptStrategy{
 
         return plainText.toString();
     }
+
+    public String createRandomKey(){
+        return "key";
+    }
 }
