@@ -33,4 +33,12 @@ public class EncryptService {
         }
         return strategy.decrypt(text, key);
     }
+
+    public String CreateKey(String id){
+        EncryptStrategy strategy = strategyMap.get(id);
+        if (strategy == null) {
+            log.error("strategy is null");
+        }
+        return strategy.createRandomKey();
+    }
 }
