@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CrawlResponseDTO {
-    private String crawlText;
+    private String crawlText;//테스트 용
     private String sourceText;
+    private String key;//테스트 용
+    private String encryptedText;
 }

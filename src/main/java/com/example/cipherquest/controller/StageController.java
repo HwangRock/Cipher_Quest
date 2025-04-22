@@ -48,12 +48,16 @@ public class StageController {
         String crawlText=crawl[0];
         String source=crawl[1];
 
+        String key=encryptService.CreateKey(requestDTO.getStageId());
+        String encTxt=encryptService.Encrypt(requestDTO.getStageId(),crawlText,key);
+
         CrawlResponseDTO response=CrawlResponseDTO.builder()
                 .crawlText(crawlText)
                 .sourceText(source)
+                .key(key)
+                .encryptedText(encTxt)
                 .build();
 
-        String key="pri";//추후 스트래티지 패턴에 공통으로 넣어야함
         if (key == null || key.isEmpty()) {
             return ResponseEntity.badRequest().body("key가 비어 있습니다.");
         }
