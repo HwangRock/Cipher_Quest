@@ -30,9 +30,6 @@ public class StageController {
     @PostMapping("/create")
     public ResponseEntity<?> createText(@RequestBody StageRequestDTO requestDTO) {
         String key=requestDTO.getKey();
-        if (key == null || key.isEmpty()) {
-            return ResponseEntity.badRequest().body("key가 비어 있습니다.");
-        }
         if(stageService.checkKey(key)){
             stageService.setToRedisWithTTL(requestDTO.getStageId(), requestDTO.getSubmitPlainText(), DURATION_TIME);
             return ResponseEntity.ok().body("save to redis: plain text");
@@ -58,15 +55,13 @@ public class StageController {
                 .encryptedText(encTxt)
                 .build();
 
-        if (key == null || key.isEmpty()) {
-            return ResponseEntity.badRequest().body("key가 비어 있습니다.");
-        }
         if(stageService.checkKey(key)){
             stageService.setToRedisWithTTL(requestDTO.getStageId(),crawlText, DURATION_TIME);
             return ResponseEntity.ok(new ResponseDTO<>(response));
-            //return ResponseEntity.ok().body("save to redis: plain text");
         }
-        return ResponseEntity.ok(new ResponseDTO<>(response));
+        else{
+            return ResponseEntity.badRequest().body("key가 적절하지 않습니다.");
+        }
     }
 
     @GetMapping("/{id}/giveup")
@@ -87,31 +82,16 @@ public class StageController {
 
     @PostMapping("/{id}/encrypt")
     public ResponseEntity<?> encrypt(@PathVariable("id") String id, @RequestBody StageRequestDTO requestDTO) {
-        try {
-            String txt = requestDTO.getSubmitPlainText();
-            if (txt == null) {
-                return ResponseEntity.badRequest().body(Map.of("error", "평문이 없습니다."));
-            }
+        String txt = requestDTO.getSubmitPlainText();
+        String k = requestDTO.getKey();
 
-            String k = requestDTO.getKey();
-            if (k == null) {
-                return ResponseEntity.badRequest().body(Map.of("error", "키가 없습니다."));
-            }
+        String encrypted = encryptService.Encrypt(id, txt, k);
+        log.info("Redis 저장 준비: 평문 Key = {}, Value = {}", id, txt);
+        log.info("Redis 저장 준비: 암호문 Key = {}, Value = {}", id + "_enc", encrypted);
 
-            String encrypted = encryptService.Encrypt(id, txt, k);
-            log.info("Redis 저장 준비: 평문 Key = {}, Value = {}", id, txt);
-            log.info("Redis 저장 준비: 암호문 Key = {}, Value = {}", id + "_enc", encrypted);
-
-            stageService.setToRedisWithTTL(id, txt, DURATION_TIME);
-            stageService.setToRedisWithTTL(id+"_enc", encrypted, DURATION_TIME);
-            return ResponseEntity.ok(Map.of("encryptedText", encrypted));
-        } catch (IllegalArgumentException e) {
-            // 잘못된 입력 예외 처리
-            return ResponseEntity.badRequest().body(Map.of("error", "잘못된 입력: " + e.getMessage()));
-        } catch (RuntimeException e) {
-            // 일반적인 예외 처리
-            return ResponseEntity.status(500).body(Map.of("error", "서버 오류: " + e.getMessage()));
-        }
+        stageService.setToRedisWithTTL(id, txt, DURATION_TIME);
+        stageService.setToRedisWithTTL(id+"_enc", encrypted, DURATION_TIME);
+        return ResponseEntity.ok(Map.of("encryptedText", encrypted));
     }
 
 
@@ -147,7 +127,8 @@ public class StageController {
                             .message("정답입니다.")
                             .build()
             );
-        } else {
+        }
+        else {
             return ResponseEntity.ok().body(
                     StageResponseDTO.builder()
                             .isCorrect(false)
