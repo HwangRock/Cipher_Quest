@@ -25,10 +25,10 @@ public class UserService {
         String id=request.getUserid();
         String name=request.getUsername();
 
-        if(!userRepository.existsByUserid(id)){
+        if(userRepository.existsByUserid(id)){
             throw new RuntimeException("already exist user id.");
         }
-        if(!userRepository.existsByUsername(name)){
+        if(userRepository.existsByUsername(name)){
             throw new RuntimeException("already exist user name.");
         }
 
