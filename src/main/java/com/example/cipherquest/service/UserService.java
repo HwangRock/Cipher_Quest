@@ -24,15 +24,28 @@ public class UserService {
     public UserEntity userRegister(SignupRequestDTO request){
         String id=request.getUserid();
         String name=request.getUsername();
+        String pw=request.getPassword();
 
         if(userRepository.existsByUserid(id)){
-            throw new RuntimeException("already exist user id.");
+            throw new RuntimeException("이미 존재하는 id입니다.");
         }
         if(userRepository.existsByUsername(name)){
-            throw new RuntimeException("already exist user name.");
+            throw new RuntimeException("이미 존재하는 닉네임입니다.");
         }
 
-        String encryptedPassword=passwordEncoder.encode(request.getPassword());
+        if (!name.matches("^.{3,}$")) {
+            throw new RuntimeException("닉네임은 최소 3자 이상이어야 합니다.");
+        }
+
+        if (!id.matches("^[a-zA-Z0-9]{9,15}$")) {
+            throw new RuntimeException("아이디는 영문자와 숫자로 이루어진 9~15자여야 합니다.");
+        }
+
+        if (!pw.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{9,15}$")) {
+            throw new RuntimeException("비밀번호는 영문자, 숫자, 특수문자를 포함한 9~15자여야 합니다.");
+        }
+
+        String encryptedPassword=passwordEncoder.encode(pw);
 
         UserEntity entity=UserEntity.builder()
                 .userid(id)
