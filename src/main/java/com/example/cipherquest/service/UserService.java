@@ -86,4 +86,22 @@ public class UserService {
 
         return accessToken;
     }
+
+    public String userWithdraw(LoginRequestDTO request){
+        String id=request.getUserid();
+        String pw=request.getPassword();
+
+        Optional<UserEntity> user=userRepository.findByUserid(id);
+        if(user.isEmpty()){
+            throw new RuntimeException("올바르지 않은 유저 정보입니다.");
+        }
+
+        if(!passwordEncoder.matches(pw,user.get().getPassword())){
+            throw new RuntimeException("올바르지 않은 유저 정보입니다.");
+        }
+
+        userRepository.delete(user.get());
+
+        return user.get().getUsername();
+    }
 }
