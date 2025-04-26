@@ -1,5 +1,6 @@
 package com.example.cipherquest.controller;
 
+import com.example.cipherquest.dto.LoginRequestDTO;
 import com.example.cipherquest.dto.ResponseDTO;
 import com.example.cipherquest.dto.SignupRequestDTO;
 import com.example.cipherquest.dto.SignupResponseDTO;
@@ -35,6 +36,18 @@ public class UserController {
                 ResponseDTO.builder()
                         .isSuccess(true)
                         .responseDto(response)
+                        .build()
+        );
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> userLogin(@RequestBody LoginRequestDTO request){
+        String accessToken=userService.tokenProvider(request);
+
+        return ResponseEntity.ok(
+                ResponseDTO.builder()
+                        .isSuccess(true)
+                        .responseDto(accessToken)
                         .build()
         );
     }

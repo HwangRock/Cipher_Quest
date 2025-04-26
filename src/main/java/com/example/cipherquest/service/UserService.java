@@ -23,6 +23,7 @@ public class UserService {
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Autowired
     private JwtProvider jwtProvider;
 
     public UserEntity userRegister(SignupRequestDTO request){
