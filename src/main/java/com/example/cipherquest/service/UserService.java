@@ -77,7 +77,11 @@ public class UserService {
             throw new RuntimeException("ID나 비밀번호를 다시 확인해주세요.");
         }
 
-        String accessToken= jwtProvider.createAccessToken(id);
+        Role userRole=wantUser.get().getRole();
+        Tier userTier=wantUser.get().getTier();
+        String userName=wantUser.get().getUsername();
+
+        String accessToken= jwtProvider.createAccessToken(id,userRole,userTier,userName);
 
         return accessToken;
     }
