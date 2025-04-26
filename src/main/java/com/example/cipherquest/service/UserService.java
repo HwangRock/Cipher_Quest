@@ -1,5 +1,6 @@
 package com.example.cipherquest.service;
 
+import com.example.cipherquest.dto.LoginRequestDTO;
 import com.example.cipherquest.dto.SignupRequestDTO;
 import com.example.cipherquest.model.Role;
 import com.example.cipherquest.model.Tier;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -20,6 +22,8 @@ public class UserService {
     private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    private JwtProvider jwtProvider;
 
     public UserEntity userRegister(SignupRequestDTO request){
         String id=request.getUserid();
@@ -58,5 +62,23 @@ public class UserService {
                 .build();
 
         return userRepository.save(entity);
+    }
+
+    public String tokenProvider(LoginRequestDTO request){
+        String id=request.getUserid();
+        String pw=request.getPassword();
+
+        Optional<UserEntity> wantUser=userRepository.findByUserid(id);
+        if(wantUser.isEmpty()){
+            throw new RuntimeException("ID나 비밀번호를 다시 확인해주세요.");
+        }
+
+        if(!passwordEncoder.matches(pw,wantUser.get().getPassword())){
+            throw new RuntimeException("ID나 비밀번호를 다시 확인해주세요.");
+        }
+
+        String accessToken= jwtProvider.createAccessToken(id);
+
+        return accessToken;
     }
 }
