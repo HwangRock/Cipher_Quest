@@ -30,6 +30,7 @@ public class UserService {
 
     private static long REFRESH_TOKEN_EXPIRATION = 14 * 86400000; // 14일
 
+    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     public UserEntity userRegister(SignupRequestDTO request){
@@ -110,6 +111,10 @@ public class UserService {
     }
 
     public String refreshTokenProvider(String userid){
+        String storedRefreshToken = (String) redisTemplate.opsForValue().get(userid);
+        if(storedRefreshToken != null){
+            return storedRefreshToken;
+        }
         String refreshToken=jwtProvider.createRefreshToken();
         redisTemplate.opsForValue().set(userid, refreshToken, Duration.ofMillis(REFRESH_TOKEN_EXPIRATION));
 

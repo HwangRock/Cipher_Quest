@@ -37,11 +37,17 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> userLogin(@RequestBody LoginRequestDTO request){
         String accessToken=userService.tokenProvider(request);
+        String refreshToken=userService.refreshTokenProvider(request.getUserid());
+
+        LoginResponseDTO response=LoginResponseDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
 
         return ResponseEntity.ok(
                 ResponseDTO.builder()
                         .isSuccess(true)
-                        .responseDto(accessToken)
+                        .responseDto(response)
                         .build()
         );
     }
