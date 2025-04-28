@@ -93,6 +93,22 @@ public class UserService {
         return accessToken;
     }
 
+    public String tokenAgainProvider(String userid, String refreshToken){
+        String storedRefreshToken = (String) redisTemplate.opsForValue().get(userid);
+        if(storedRefreshToken == null || !storedRefreshToken.equals(refreshToken)){
+            throw new RuntimeException("refresh token에 문제있음");
+        }
+
+        Optional<UserEntity> user=userRepository.findByUserid(userid);
+        Role userRole=user.get().getRole();
+        Tier userTier=user.get().getTier();
+        String userName=user.get().getUsername();
+
+        String accessToken= jwtProvider.createAccessToken(userid,userRole,userTier,userName);
+
+        return accessToken;
+    }
+
     public String refreshTokenProvider(String userid){
         String refreshToken=jwtProvider.createRefreshToken();
         redisTemplate.opsForValue().set(userid, refreshToken, Duration.ofMillis(REFRESH_TOKEN_EXPIRATION));
