@@ -8,10 +8,12 @@ import com.example.cipherquest.model.UserEntity;
 import com.example.cipherquest.persistence.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -25,6 +27,10 @@ public class UserService {
 
     @Autowired
     private JwtProvider jwtProvider;
+
+    private static long REFRESH_TOKEN_EXPIRATION = 14 * 86400000; // 14일
+
+    private RedisTemplate<String, Object> redisTemplate;
 
     public UserEntity userRegister(SignupRequestDTO request){
         String id=request.getUserid();
@@ -85,6 +91,13 @@ public class UserService {
         String accessToken= jwtProvider.createAccessToken(id,userRole,userTier,userName);
 
         return accessToken;
+    }
+
+    public String refreshTokenProvider(String userid){
+        String refreshToken=jwtProvider.createRefreshToken();
+        redisTemplate.opsForValue().set(userid, refreshToken, Duration.ofMillis(REFRESH_TOKEN_EXPIRATION));
+
+        return refreshToken;
     }
 
     public String userWithdraw(LoginRequestDTO request){

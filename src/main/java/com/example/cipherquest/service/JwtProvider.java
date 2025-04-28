@@ -21,6 +21,7 @@ public class JwtProvider {
     private String SECRET_KEY;
 
     private static final long ACCESS_TOKEN_EXPIRATION = 1000*60*30; // 30분
+    private static final long REFRESH_TOKEN_EXPIRATION = 14 * 86400000; // 14일
     private Key key;
 
     @PostConstruct
@@ -38,6 +39,14 @@ public class JwtProvider {
                 ))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+ACCESS_TOKEN_EXPIRATION))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String createRefreshToken() {
+        return Jwts.builder()
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
