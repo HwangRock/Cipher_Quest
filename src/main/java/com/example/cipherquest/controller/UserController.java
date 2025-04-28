@@ -1,9 +1,6 @@
 package com.example.cipherquest.controller;
 
-import com.example.cipherquest.dto.LoginRequestDTO;
-import com.example.cipherquest.dto.ResponseDTO;
-import com.example.cipherquest.dto.SignupRequestDTO;
-import com.example.cipherquest.dto.SignupResponseDTO;
+import com.example.cipherquest.dto.*;
 import com.example.cipherquest.model.UserEntity;
 import com.example.cipherquest.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -61,4 +58,17 @@ public class UserController {
         );
 
     }
+
+    @PostMapping("againTokenProvide")
+    public ResponseEntity<?> againTokenProvide(@RequestBody TokenProvideRequestDTO request){
+        String accessToken=userService.tokenAgainProvider(request.getUserid(),request.getRefreshToken());
+
+        return ResponseEntity.ok(
+                ResponseDTO.builder()
+                        .isSuccess(true)
+                        .responseDto(accessToken)
+                        .build()
+        );
+    }
+
 }
