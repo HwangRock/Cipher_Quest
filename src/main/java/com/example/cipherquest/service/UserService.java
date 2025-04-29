@@ -2,6 +2,7 @@ package com.example.cipherquest.service;
 
 import com.example.cipherquest.dto.LoginRequestDTO;
 import com.example.cipherquest.dto.SignupRequestDTO;
+import com.example.cipherquest.dto.UpdatePasswordRequestDTO;
 import com.example.cipherquest.model.Role;
 import com.example.cipherquest.model.Tier;
 import com.example.cipherquest.model.UserEntity;
@@ -137,5 +138,23 @@ public class UserService {
         userRepository.delete(user.get());
 
         return user.get().getUsername();
+    }
+
+    public void updatePassword(UpdatePasswordRequestDTO request){
+        String userid=request.getUserid();
+        String oldPw=request.getOldPw();
+        String pw=request.getNewPw();
+        Optional<UserEntity> user=userRepository.findByUserid(userid);
+        if(user.isEmpty()){
+            throw new RuntimeException("올바르지 않은 유저 정보입니다.");
+        }
+        String storedPw=user.get().getPassword();
+        if(!passwordEncoder.matches(oldPw,storedPw)){
+            throw new RuntimeException("올바르지 않은 유저 정보입니다.");
+        }
+
+        String encryptedNewPw=passwordEncoder.encode(pw);
+        user.get().setPassword(encryptedNewPw);
+        userRepository.save(user.get());
     }
 }
