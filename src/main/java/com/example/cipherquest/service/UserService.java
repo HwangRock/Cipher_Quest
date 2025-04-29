@@ -140,7 +140,7 @@ public class UserService {
         return user.get().getUsername();
     }
 
-    public void updatePassword(UpdatePasswordRequestDTO request){
+    public String updatePassword(UpdatePasswordRequestDTO request){
         String userid=request.getUserid();
         String oldPw=request.getOldPw();
         String pw=request.getNewPw();
@@ -156,5 +156,9 @@ public class UserService {
         String encryptedNewPw=passwordEncoder.encode(pw);
         user.get().setPassword(encryptedNewPw);
         userRepository.save(user.get());
+
+        String name=user.get().getUsername();
+
+        return name;
     }
 }

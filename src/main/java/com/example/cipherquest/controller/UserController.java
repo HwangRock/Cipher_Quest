@@ -77,4 +77,15 @@ public class UserController {
         );
     }
 
+    @PatchMapping("/updatePassword")
+    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequestDTO request){
+        String name=userService.updatePassword(request);
+
+        return ResponseEntity.ok(
+                ResponseDTO.builder()
+                        .isSuccess(true)
+                        .responseDto(name+" 유저의 비밀번호가 변경됐습니다.")
+                        .build()
+        );
+    }
 }
