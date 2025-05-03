@@ -69,9 +69,17 @@ public class AdfgvxStrategy implements EncryptStrategy{
     public String createRandomKey(){
         SecureRandom secureRandom = new SecureRandom();
         StringBuilder key=new StringBuilder();
+        HashMap<Integer,Boolean>h=new HashMap<>();
         int keyLen = secureRandom.nextInt(10)+5;
         for(int i=0;i<keyLen;i++){
-            int n=secureRandom.nextInt(26);
+            int n=0;
+            while(true){
+                n=secureRandom.nextInt(26);
+                if(!h.containsKey(n)){
+                    h.put(n,true);
+                    break;
+                }
+            }
             key.append((char)n+'a');
         }
         return key.toString();
