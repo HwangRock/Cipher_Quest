@@ -2,6 +2,7 @@ package com.example.cipherquest.service;
 
 import com.example.cipherquest.dto.LoginRequestDTO;
 import com.example.cipherquest.dto.SignupRequestDTO;
+import com.example.cipherquest.dto.SortResponseDTO;
 import com.example.cipherquest.dto.UpdatePasswordRequestDTO;
 import com.example.cipherquest.model.Role;
 import com.example.cipherquest.model.Tier;
@@ -16,7 +17,36 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.*;
+
+class pair implements Comparable<pair> {
+    long n;
+    String s;
+
+    public pair(long n, String s){
+        this.n = n;
+        this.s = s;
+    }
+
+    @Override
+    public int compareTo(pair o) {
+        return Long.compare(o.n, this.n);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof pair)) return false;
+        pair p = (pair) o;
+        return n == p.n && s.equals(p.s);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(n, s);
+    }
+}
+
 
 @Service
 @Slf4j
@@ -160,5 +190,41 @@ public class UserService {
         String name=user.get().getUsername();
 
         return name;
+    }
+
+    public List<SortResponseDTO> sortUserByRanking(){
+        List<UserEntity>users=userRepository.findAll();
+        HashMap<pair,Long>h=new HashMap<>();
+        HashMap<Long,UserEntity>finding=new HashMap<>();
+        List<pair>lis=new ArrayList<>();
+
+        int fin=users.size();
+        for(int i=0;i<fin;i++){
+            UserEntity cur=users.get(i);
+            pair p=new pair(cur.getScore(),cur.getUsername());
+            long id=cur.getId();
+            h.put(p,id);
+            finding.put(id,cur);
+            lis.add(p);
+        }
+
+        Collections.sort(lis);
+
+        List<SortResponseDTO>response=new ArrayList<>();
+        for(int i=0;i<fin;i++){
+            pair p=lis.get(i);
+            long id=h.get(p);
+            UserEntity user=finding.get(id);
+
+            SortResponseDTO current=SortResponseDTO.builder()
+                    .name(user.getUsername())
+                    .score(user.getScore())
+                    .tier(user.getTier())
+                    .build();
+
+            response.add(current);
+        }
+
+        return response;
     }
 }
