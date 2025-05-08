@@ -1,6 +1,8 @@
 package com.example.cipherquest.service;
 
 import com.example.cipherquest.dto.CreatePostRequestDTO;
+import com.example.cipherquest.dto.ReadPostRequestDTO;
+import com.example.cipherquest.dto.ReadPostResponseDTO;
 import com.example.cipherquest.model.Category;
 import com.example.cipherquest.model.PostEntity;
 import com.example.cipherquest.model.UserEntity;
@@ -53,5 +55,26 @@ public class PostService {
 
         return postRepository.save(posting);
 
+    }
+
+    public ReadPostResponseDTO readPost(ReadPostRequestDTO request){
+        long postid=request.getPostid();
+        Optional<PostEntity> post=postRepository.findById(postid);
+        if(post.isEmpty()){
+            throw new RuntimeException("잘못된 게시물입니다.");
+        }
+
+        ReadPostResponseDTO response=ReadPostResponseDTO.builder()
+                .category(post.get().getCategory())
+                .updateat(post.get().getUpdateat())
+                .createdat(post.get().getCreatedat())
+                .content(post.get().getContent())
+                .title(post.get().getTitle())
+                .likecount(post.get().getLikecount())
+                .dislikecount(post.get().getDislikecount())
+                .writername(post.get().getWriter().getUsername())
+                .build();
+
+        return response;
     }
 }
