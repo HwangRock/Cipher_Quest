@@ -1,6 +1,8 @@
 package com.example.cipherquest.controller;
 
 import com.example.cipherquest.dto.CreatePostRequestDTO;
+import com.example.cipherquest.dto.ReadPostRequestDTO;
+import com.example.cipherquest.dto.ReadPostResponseDTO;
 import com.example.cipherquest.dto.ResponseDTO;
 import com.example.cipherquest.model.PostEntity;
 import com.example.cipherquest.service.JwtProvider;
@@ -36,4 +38,15 @@ public class PostController {
         );
     }
 
+    @GetMapping("/readPost/{postId}")
+    public ResponseEntity<?> readPost(@PathVariable Long postid) {
+        ReadPostResponseDTO response=postService.readPost(postid);
+
+        return ResponseEntity.ok(
+                ResponseDTO.builder()
+                        .isSuccess(true)
+                        .responseDto(response)
+                        .build()
+        );
+    }
 }

@@ -57,8 +57,7 @@ public class PostService {
 
     }
 
-    public ReadPostResponseDTO readPost(ReadPostRequestDTO request){
-        long postid=request.getPostid();
+    public ReadPostResponseDTO readPost(long postid){
         Optional<PostEntity> post=postRepository.findById(postid);
         if(post.isEmpty()){
             throw new RuntimeException("잘못된 게시물입니다.");
