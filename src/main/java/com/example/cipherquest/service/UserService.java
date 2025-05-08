@@ -182,6 +182,9 @@ public class UserService {
         if(!passwordEncoder.matches(oldPw,storedPw)){
             throw new RuntimeException("올바르지 않은 유저 정보입니다.");
         }
+        if (!pw.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{9,15}$")) {
+            throw new RuntimeException("비밀번호는 영문자, 숫자, 특수문자를 포함한 9~15자여야 합니다.");
+        }
 
         String encryptedNewPw=passwordEncoder.encode(pw);
         user.get().setPassword(encryptedNewPw);
