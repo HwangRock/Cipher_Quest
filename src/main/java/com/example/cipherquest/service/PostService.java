@@ -3,6 +3,7 @@ package com.example.cipherquest.service;
 import com.example.cipherquest.dto.CreatePostRequestDTO;
 import com.example.cipherquest.dto.ReadPostRequestDTO;
 import com.example.cipherquest.dto.ReadPostResponseDTO;
+import com.example.cipherquest.dto.UpdatePostRequestDTO;
 import com.example.cipherquest.model.Category;
 import com.example.cipherquest.model.PostEntity;
 import com.example.cipherquest.model.UserEntity;
@@ -75,5 +76,28 @@ public class PostService {
                 .build();
 
         return response;
+    }
+
+    public PostEntity updatePost(UpdatePostRequestDTO request, String userId){
+        long postId=request.getPostId();
+        String updateContent = request.getUpdateContent().trim();
+
+        Optional<PostEntity> post=postRepository.findById(postId);
+        if(post.isEmpty()){
+            throw new RuntimeException("잘못된 게시물입니다.");
+        }
+
+        if(!post.get().getWriter().getUserid().equals(userId)){
+            throw new RuntimeException("수정권한이 없습니다.");
+        }
+
+        if(updateContent.equals(post.get().getContent())){
+            throw new RuntimeException("변경사항이 없습니다.");
+        }
+
+        post.get().setUpdateat(LocalDateTime.now());
+        post.get().setContent(updateContent);
+
+        return postRepository.save(post.get());
     }
 }
