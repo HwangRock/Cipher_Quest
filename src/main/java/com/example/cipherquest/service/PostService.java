@@ -100,13 +100,17 @@ public class PostService {
         return postRepository.save(post.get());
     }
 
-    public PostEntity LogicallyDeletePost(long postId){
+    public PostEntity LogicallyDeletePost(long postId, String userId){
         Optional<PostEntity> post=postRepository.findById(postId);
         if(post.isEmpty()){
             throw new RuntimeException("잘못된 게시물입니다.");
         }
 
         PostEntity postEntity=post.get();
+
+        if(!postEntity.getWriter().getUserid().equals(userId)){
+            throw new RuntimeException("수정권한이 없습니다.");
+        }
 
         if(postEntity.getCategory() == Category.QUESTION){
             throw new RuntimeException("질문 글은 삭제할 수 없습니다.");

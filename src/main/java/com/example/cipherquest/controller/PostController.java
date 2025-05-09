@@ -60,4 +60,18 @@ public class PostController {
                         .build()
         );
     }
+
+    @PatchMapping("/deletePost/{postId}")
+    public ResponseEntity<?> deletePost(@PathVariable Long postid, @RequestHeader("Authorization") String authHeader){
+        String userid=jwtProvider.extractUserId(authHeader);
+
+        PostEntity LogicallyDeleted=postService.LogicallyDeletePost(postid,userid);
+
+        return ResponseEntity.ok(
+                ResponseDTO.builder()
+                        .isSuccess(true)
+                        .responseDto(LogicallyDeleted)
+                        .build()
+        );
+    }
 }
