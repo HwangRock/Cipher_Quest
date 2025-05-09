@@ -78,8 +78,7 @@ public class PostService {
         return response;
     }
 
-    public PostEntity updatePost(UpdatePostRequestDTO request, String userId){
-        long postId=request.getPostId();
+    public PostEntity updatePost(UpdatePostRequestDTO request, String userId,long postId){
         String updateContent = request.getUpdateContent().trim();
 
         Optional<PostEntity> post=postRepository.findById(postId);

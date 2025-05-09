@@ -1,9 +1,6 @@
 package com.example.cipherquest.controller;
 
-import com.example.cipherquest.dto.CreatePostRequestDTO;
-import com.example.cipherquest.dto.ReadPostRequestDTO;
-import com.example.cipherquest.dto.ReadPostResponseDTO;
-import com.example.cipherquest.dto.ResponseDTO;
+import com.example.cipherquest.dto.*;
 import com.example.cipherquest.model.PostEntity;
 import com.example.cipherquest.service.JwtProvider;
 import com.example.cipherquest.service.PostService;
@@ -46,6 +43,20 @@ public class PostController {
                 ResponseDTO.builder()
                         .isSuccess(true)
                         .responseDto(response)
+                        .build()
+        );
+    }
+
+    @PatchMapping("/updatePost/{postId}")
+    public ResponseEntity<?> updatePost(@PathVariable Long postid,@RequestBody UpdatePostRequestDTO request,
+                                        @RequestHeader("Authorization") String authHeader){
+        String userid=jwtProvider.extractUserId(authHeader);
+        PostEntity updated=postService.updatePost(request,userid,postid);
+
+        return ResponseEntity.ok(
+                ResponseDTO.builder()
+                        .isSuccess(true)
+                        .responseDto(updated)
                         .build()
         );
     }
