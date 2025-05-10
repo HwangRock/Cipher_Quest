@@ -35,4 +35,20 @@ public class CommentController {
                         .build()
         );
     }
+
+    @PatchMapping("/deleteComment/{commentId}")
+    public ResponseEntity<?> deleteComment(@RequestHeader("Authorization") String authHeader,
+                                           @PathVariable long commentId){
+        String userId=jwtProvider.extractUserId(authHeader);
+
+        CommentEntity deletedComment=commentService.deleteComment(commentId,userId);
+
+        return ResponseEntity.ok(
+                ResponseDTO.builder()
+                        .isSuccess(true)
+                        .responseDto(deletedComment)
+                        .build()
+        );
+    }
+
 }
