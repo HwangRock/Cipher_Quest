@@ -43,6 +43,9 @@ public class CommentEntity {
     @Column()
     private long dislikecount;
 
+    @Column()
+    private boolean isDeleted=false;
+
     @Column(nullable = false,updatable = false)
     private LocalDateTime createdat;
 

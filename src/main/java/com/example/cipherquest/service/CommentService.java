@@ -60,7 +60,7 @@ public class CommentService {
             }
             CommentEntity parent=requestParent.get();
             if (parent.getParent()!=null) {
-                throw new RuntimeException("대댓글에는 대댓글을 달 수 없습니다.");
+                throw new RuntimeException("대댓글에는 대댓글을 달 수 없음.");
             }
 
             CommentEntity response=CommentEntity.builder()
@@ -70,11 +70,38 @@ public class CommentService {
                     .createdat(LocalDateTime.now())
                     .likecount(0)
                     .dislikecount(0)
+                    .isDeleted(false)
                     .parent(parent)
                     .build();
             parent.getChildren().add(response);
             return commentRepository.save(response);
         }
 
+    }
+
+    public CommentEntity deleteComment(long commentId,String userId){
+        Optional<UserEntity> requestUser=userRepository.findByUserid(userId);
+        if(requestUser.isEmpty()){
+            throw new RuntimeException("토큰에 하자 있음");
+        }
+        UserEntity user=requestUser.get();
+
+        Optional<CommentEntity> requestComment=commentRepository.findById(commentId);
+        if(requestComment.isEmpty()){
+            throw new RuntimeException("댓글 없음");
+        }
+        CommentEntity comment=requestComment.get();
+
+        if(!user.getUsername().equals(comment.getCommentWriterName())){
+            throw new RuntimeException("삭제 권한 없음");
+        }
+
+        if(comment.isDeleted()){
+            throw new RuntimeException("이미 삭제됨");
+        }
+
+        comment.setDeleted(true);
+
+        return commentRepository.save(comment);
     }
 }
