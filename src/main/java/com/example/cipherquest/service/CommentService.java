@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -103,5 +103,32 @@ public class CommentService {
         comment.setDeleted(true);
 
         return commentRepository.save(comment);
+    }
+
+    public List<CommentEntity> getCommentsForPost(long postId){
+        Optional<PostEntity>postRequest=postRepository.findById(postId);
+        if(postRequest.isEmpty()){
+            throw new RuntimeException("게시물 없음");
+        }
+
+        PostEntity post=postRequest.get();
+        List<CommentEntity>allComments=commentRepository.findAllByPostIdAndIsDeletedFalse(post);
+        List<CommentEntity>response=new ArrayList<>();
+
+        Map<Long,CommentEntity>map= new HashMap<>();
+        for (CommentEntity comment : allComments) {
+            map.put(comment.getId(), comment);
+        }
+
+        for (CommentEntity comment : allComments) {
+            if (comment.getParent() != null) {
+                map.get(comment.getParent().getId()).getChildren().add(map.get(comment.getId()));
+            }
+            else {
+                response.add(map.get(comment.getId()));
+            }
+        }
+
+        return response;
     }
 }
