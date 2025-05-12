@@ -1,4 +1,4 @@
-package com.example.cipherquest.cipher;
+package com.example.cipherquest.utils.cipher;
 
 
 import org.springframework.stereotype.Component;

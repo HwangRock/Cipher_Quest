@@ -1,16 +1,17 @@
-package com.example.cipherquest.cipher;
+package com.example.cipherquest.utils.cipher;
 
 import org.springframework.stereotype.Component;
 
-@Component("stage9")
-public class AesStrategy implements EncryptStrategy {
+@Component("stage4")
+public class HillStrategy implements EncryptStrategy{
     public String encrypt(String plainText, String key) {
-        return "test AES encryption";
+        return "test hill";
     }
 
     public String decrypt(String cipherText, String key) {
-        return "test AES decryption";
+        return "test hill";
     }
+
     public String createRandomKey(){
         return "key";
     }

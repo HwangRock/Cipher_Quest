@@ -1,4 +1,4 @@
-package com.example.cipherquest.cipher;
+package com.example.cipherquest.utils.cipher;
 
 public interface EncryptStrategy {
     String encrypt(String plainText, String key);

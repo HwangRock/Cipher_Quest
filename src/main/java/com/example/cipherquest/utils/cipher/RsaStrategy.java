@@ -1,15 +1,15 @@
-package com.example.cipherquest.cipher;
+package com.example.cipherquest.utils.cipher;
 
 import org.springframework.stereotype.Component;
 
-@Component("stage4")
-public class HillStrategy implements EncryptStrategy{
+@Component("stage10")
+public class RsaStrategy implements EncryptStrategy{
     public String encrypt(String plainText, String key) {
-        return "test hill";
+        return "test RSA encrypt";
     }
 
     public String decrypt(String cipherText, String key) {
-        return "test hill";
+        return "test RSA decrypt";
     }
 
     public String createRandomKey(){

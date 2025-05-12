@@ -1,15 +1,15 @@
-package com.example.cipherquest.cipher;
+package com.example.cipherquest.utils.cipher;
 
 import org.springframework.stereotype.Component;
 
-@Component("stage8")
-public class DesStrategy implements EncryptStrategy{
+@Component("stage11")
+public class DhStrategy implements EncryptStrategy {
     public String encrypt(String plainText, String key) {
-        return "test DES encryption";
+        return "test DH encrypt";
     }
 
     public String decrypt(String cipherText, String key) {
-        return "test DES decryption";
+        return "test DH decrypt";
     }
 
     public String createRandomKey(){
