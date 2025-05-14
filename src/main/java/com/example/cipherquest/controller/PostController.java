@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequestMapping("api/post")
@@ -71,6 +73,18 @@ public class PostController {
                 ResponseDTO.builder()
                         .isSuccess(true)
                         .responseDto(LogicallyDeleted)
+                        .build()
+        );
+    }
+
+    @GetMapping("/readCategory/{category}")
+    public ResponseEntity<?> readCategory(@PathVariable String categoty){
+        List<PostEntity> response=postService.readCategory(categoty);
+
+        return ResponseEntity.ok(
+                ResponseDTO.builder()
+                        .isSuccess(true)
+                        .responseDto(response)
                         .build()
         );
     }

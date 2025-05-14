@@ -135,7 +135,7 @@ public class PostService {
         return postRepository.save(postEntity);
     }
 
-    public List<PostEntity> readCategory(String id,Category category){
+    public List<PostEntity> readCategory(String id){
         CategoryReadStrategy strategy=strategyMap.get(id);
         if(strategy==null){
             throw new RuntimeException("없는 카테고리임.");
