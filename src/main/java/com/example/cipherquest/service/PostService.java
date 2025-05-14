@@ -1,7 +1,6 @@
 package com.example.cipherquest.service;
 
 import com.example.cipherquest.dto.CreatePostRequestDTO;
-import com.example.cipherquest.dto.ReadPostRequestDTO;
 import com.example.cipherquest.dto.ReadPostResponseDTO;
 import com.example.cipherquest.dto.UpdatePostRequestDTO;
 import com.example.cipherquest.model.Category;
@@ -9,16 +8,27 @@ import com.example.cipherquest.model.PostEntity;
 import com.example.cipherquest.model.UserEntity;
 import com.example.cipherquest.persistence.PostRepository;
 import com.example.cipherquest.persistence.UserRepository;
+import com.example.cipherquest.utils.category.CategoryReadStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
 @Service
 public class PostService {
+
+    private Map<String, CategoryReadStrategy>strategyMap;
+
+    @Autowired
+    public void PostService(Map<String, CategoryReadStrategy>strategyMap){
+        this.strategyMap=strategyMap;
+    }
 
     @Autowired
     private PostRepository postRepository;
@@ -123,5 +133,16 @@ public class PostService {
         postEntity.setIsdeleted(true);
 
         return postRepository.save(postEntity);
+    }
+
+    public List<PostEntity> readCategory(String id,Category category){
+        CategoryReadStrategy strategy=strategyMap.get(id);
+        if(strategy==null){
+            throw new RuntimeException("없는 카테고리임.");
+        }
+
+        List<PostEntity>response=strategy.readPosts();
+
+        return response;
     }
 }
