@@ -6,6 +6,7 @@ import com.example.cipherquest.service.JwtProvider;
 import com.example.cipherquest.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,8 +79,9 @@ public class PostController {
     }
 
     @GetMapping("/readCategory/{category}")
-    public ResponseEntity<?> readCategory(@PathVariable String categoty){
-        List<PostEntity> response=postService.readCategory(categoty);
+    public ResponseEntity<?> readCategory(@PathVariable String categoty,@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size){
+        Page<PostEntity> response=postService.readCategory(categoty,page,size);
 
         return ResponseEntity.ok(
                 ResponseDTO.builder()

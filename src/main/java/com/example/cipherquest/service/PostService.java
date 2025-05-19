@@ -11,6 +11,10 @@ import com.example.cipherquest.persistence.UserRepository;
 import com.example.cipherquest.utils.category.CategoryReadStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -135,14 +139,14 @@ public class PostService {
         return postRepository.save(postEntity);
     }
 
-    public List<PostEntity> readCategory(String id){
+    public Page<PostEntity> readCategory(String id, int page, int size){
         CategoryReadStrategy strategy=strategyMap.get(id);
         if(strategy==null){
             throw new RuntimeException("없는 카테고리임.");
         }
 
-        List<PostEntity>response=strategy.readPosts();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdat").descending());
 
-        return response;
+        return strategy.readPostsPaged(pageable);
     }
 }
