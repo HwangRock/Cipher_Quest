@@ -90,4 +90,18 @@ public class PostController {
                         .build()
         );
     }
+
+    @PostMapping("/emotePost")
+    public ResponseEntity<?> emotePost(@RequestHeader("Authorization") String authHeader,
+                                       @RequestBody EmotionRequestDTO request){
+        String userid=jwtProvider.extractUserId(authHeader);
+        EmotionResponseDTO response=postService.postEmote(userid,request);
+
+        return ResponseEntity.ok(
+                ResponseDTO.builder()
+                        .isSuccess(true)
+                        .responseDto(response)
+                        .build()
+        );
+    }
 }
