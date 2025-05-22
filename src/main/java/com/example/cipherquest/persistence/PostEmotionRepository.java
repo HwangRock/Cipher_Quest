@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface PostEmotionRepository extends JpaRepository<PostEmotionEntity, Long> {
     Optional<PostEmotionEntity> findByUserAndPost(UserEntity user, PostEntity post);
-    long countByPostAndEmotionType(Optional<PostEntity> post, EmotionType emotionType);
+    long countByPostAndEmotionType(PostEntity post, EmotionType emotionType);
     boolean existsByUserAndPost(UserEntity user, PostEntity post);
 }

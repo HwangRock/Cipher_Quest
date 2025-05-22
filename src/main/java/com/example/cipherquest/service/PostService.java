@@ -62,8 +62,6 @@ public class PostService {
                 .title(title)
                 .createdat(LocalDateTime.now())
                 .updateat(LocalDateTime.now())
-                .likecount(0)
-                .dislikecount(0)
                 .isdeleted(false)
                 .writer(writer.get())
                 .build();
@@ -84,8 +82,6 @@ public class PostService {
                 .createdat(post.get().getCreatedat())
                 .content(post.get().getContent())
                 .title(post.get().getTitle())
-                .likecount(post.get().getLikecount())
-                .dislikecount(post.get().getDislikecount())
                 .writername(post.get().getWriter().getUsername())
                 .build();
 
