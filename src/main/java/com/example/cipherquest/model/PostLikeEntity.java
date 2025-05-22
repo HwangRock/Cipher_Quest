@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(
-        name = "post_likes",
+        name = "post_emotion",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "post_id"})
 )
 public class PostLikeEntity {
@@ -27,6 +27,10 @@ public class PostLikeEntity {
     @JoinColumn(name = "post_id", nullable = false)
     private PostEntity post;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private emotionType voteType;
+
     @Column(nullable = false, updatable = false)
-    private LocalDateTime likedAt;
+    private LocalDateTime emotionAt;
 }
