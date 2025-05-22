@@ -1,15 +1,13 @@
 package com.example.cipherquest.service;
 
-import com.example.cipherquest.dto.CreatePostRequestDTO;
-import com.example.cipherquest.dto.ReadPostResponseDTO;
-import com.example.cipherquest.dto.UpdatePostRequestDTO;
-import com.example.cipherquest.model.Category;
-import com.example.cipherquest.model.PostEntity;
-import com.example.cipherquest.model.UserEntity;
+import com.example.cipherquest.dto.*;
+import com.example.cipherquest.model.*;
+import com.example.cipherquest.persistence.PostEmotionRepository;
 import com.example.cipherquest.persistence.PostRepository;
 import com.example.cipherquest.persistence.UserRepository;
 import com.example.cipherquest.utils.category.CategoryReadStrategy;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +36,8 @@ public class PostService {
     private PostRepository postRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PostEmotionRepository postEmotionRepository;
 
     public PostEntity createPost(CreatePostRequestDTO request, String userid){
         String title=request.getTitle();
@@ -149,4 +149,55 @@ public class PostService {
 
         return strategy.readPostsPaged(pageable);
     }
+
+    public EmotionResponseDTO postEmote(String userid, EmotionRequestDTO request) {
+        Optional<UserEntity> writer = userRepository.findByUserid(userid);
+        if (writer.isEmpty()) {
+            throw new RuntimeException("토큰에 하자 있음");
+        }
+        EmotionType emotionType = request.getEmotionType();
+        long postId = request.getPostId();
+
+        Optional<PostEntity> post = postRepository.findById(postId);
+        if (post.isEmpty()) {
+            throw new RuntimeException("잘못된 게시물입니다.");
+        }
+        PostEntity postEntity = post.get();
+        UserEntity user = writer.get();
+
+        Optional<PostEmotionEntity> emote = postEmotionRepository.findByUserAndPost(user, postEntity);
+
+        if (emote.isPresent()) {
+            PostEmotionEntity emotionEntity = emote.get();
+
+            if (emotionEntity.getEmotionType() == emotionType) {
+                postEmotionRepository.delete(emotionEntity);
+            }
+            else {
+                emotionEntity.setEmotionType(emotionType);
+                emotionEntity.setEmotionAt(LocalDateTime.now());
+                postEmotionRepository.save(emotionEntity);
+            }
+        }
+        else {
+            PostEmotionEntity newEmotion = PostEmotionEntity.builder()
+                    .user(user)
+                    .post(postEntity)
+                    .emotionType(emotionType)
+                    .emotionAt(LocalDateTime.now())
+                    .build();
+            postEmotionRepository.save(newEmotion);
+        }
+
+        long emotionCount = postEmotionRepository.countByPostAndEmotionType(postEntity, emotionType);
+
+        EmotionResponseDTO response = EmotionResponseDTO.builder()
+                .postId(postId)
+                .emotionType(emotionType)
+                .emotionCount(emotionCount)
+                .build();
+
+        return response;
+    }
+
 }

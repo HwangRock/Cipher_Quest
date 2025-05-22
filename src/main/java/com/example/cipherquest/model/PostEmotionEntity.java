@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
         name = "post_emotion",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "post_id"})
 )
-public class PostLikeEntity {
+public class PostEmotionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +29,7 @@ public class PostLikeEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private emotionType voteType;
+    private EmotionType emotionType;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime emotionAt;

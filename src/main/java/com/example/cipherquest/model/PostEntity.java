@@ -35,12 +35,6 @@ public class PostEntity {
     private LocalDateTime updateat;
 
     @Column()
-    private long likecount;
-
-    @Column()
-    private long dislikecount;
-
-    @Column()
     private boolean isdeleted;
 
     @Enumerated(EnumType.STRING)
