@@ -1,5 +1,6 @@
 package com.example.cipherquest.controller;
 
+import com.example.cipherquest.dto.CommentLikeResponseDTO;
 import com.example.cipherquest.dto.CreateCommentRequestDTO;
 import com.example.cipherquest.dto.ResponseDTO;
 import com.example.cipherquest.model.CommentEntity;
@@ -47,6 +48,21 @@ public class CommentController {
                 ResponseDTO.builder()
                         .isSuccess(true)
                         .responseDto(deletedComment)
+                        .build()
+        );
+    }
+
+    @PostMapping("/commentLike/{commentId}")
+    public ResponseEntity<?> commentLike(@RequestHeader("Authorization") String authHeader,
+                                           @PathVariable long commentId){
+        String userId=jwtProvider.extractUserId(authHeader);
+
+        CommentLikeResponseDTO response=commentService.commentLike(userId,commentId);
+
+        return ResponseEntity.ok(
+                ResponseDTO.builder()
+                        .isSuccess(true)
+                        .responseDto(response)
                         .build()
         );
     }
