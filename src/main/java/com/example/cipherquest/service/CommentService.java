@@ -1,9 +1,12 @@
 package com.example.cipherquest.service;
 
+import com.example.cipherquest.dto.CommentLikeResponseDTO;
 import com.example.cipherquest.dto.CreateCommentRequestDTO;
 import com.example.cipherquest.model.CommentEntity;
+import com.example.cipherquest.model.CommentLikeEntity;
 import com.example.cipherquest.model.PostEntity;
 import com.example.cipherquest.model.UserEntity;
+import com.example.cipherquest.persistence.CommentLikeRepository;
 import com.example.cipherquest.persistence.CommentRepository;
 import com.example.cipherquest.persistence.PostRepository;
 import com.example.cipherquest.persistence.UserRepository;
@@ -26,6 +29,9 @@ public class CommentService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CommentLikeRepository commentLikeRepository;
 
     public CommentEntity createComment(CreateCommentRequestDTO request, String userId){
         long postId=request.getPostId();
@@ -131,4 +137,48 @@ public class CommentService {
 
         return response;
     }
+
+    public CommentLikeResponseDTO commentLike(String userId, long commentId){
+        Optional<UserEntity> requestUser=userRepository.findByUserid(userId);
+        if(requestUser.isEmpty()){
+            throw new RuntimeException("토큰에 하자 있음");
+        }
+        UserEntity user=requestUser.get();
+
+        Optional<CommentEntity> requestComment=commentRepository.findById(commentId);
+        if(requestComment.isEmpty()){
+            throw new RuntimeException("댓글 없음");
+        }
+        CommentEntity comment=requestComment.get();
+
+        if(user.getUsername().equals(comment.getCommentWriterName())){
+            throw new RuntimeException("본인 댓글에 좋아요 못누름");
+        }
+
+        Optional<CommentLikeEntity> like=commentLikeRepository.findByUserAndComment(user,comment);
+        if(like.isEmpty()){
+            CommentLikeEntity newLike = CommentLikeEntity.builder()
+                    .user(user)
+                    .comment(comment)
+                    .likedAt(LocalDateTime.now())
+                    .build();
+
+            commentLikeRepository.save(newLike);
+            comment.setLikecount(comment.getLikecount()+1);
+        }
+        else{
+            CommentLikeEntity existingLike = like.get();
+            commentLikeRepository.delete(existingLike);
+            comment.setLikecount(comment.getLikecount()-1);
+        }
+        commentRepository.save(comment);
+
+        CommentLikeResponseDTO response = CommentLikeResponseDTO.builder()
+                .commentId(commentId)
+                .likeCount(comment.getLikecount())
+                .build();
+
+        return response;
+    }
+
 }
