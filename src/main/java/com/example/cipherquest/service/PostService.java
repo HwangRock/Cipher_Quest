@@ -161,6 +161,9 @@ public class PostService {
         PostEntity postEntity = post.get();
         UserEntity user = writer.get();
 
+        if(user.getId()==postEntity.getWriter().getId()){
+            throw new RuntimeException("본인 글에 좋아요 못누름");
+        }
         Optional<PostEmotionEntity> emote = postEmotionRepository.findByUserAndPost(user, postEntity);
 
         if (emote.isPresent()) {
