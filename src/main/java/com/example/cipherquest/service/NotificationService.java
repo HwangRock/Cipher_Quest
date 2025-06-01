@@ -33,7 +33,7 @@ public class NotificationService {
         return notificationEntities;
     }
 
-    public NotificationEntity fetchReadNotification(String userId, long id){
+    public NotificationEntity patchReadNotification(String userId, long id){
 
         Optional<NotificationEntity> requestId=notificationRepository.findById(id);
         if(requestId.isEmpty()){
