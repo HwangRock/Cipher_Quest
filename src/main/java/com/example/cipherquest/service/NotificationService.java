@@ -32,4 +32,21 @@ public class NotificationService {
 
         return notificationEntities;
     }
+
+    public NotificationEntity fetchReadNotification(String userId, long id){
+
+        Optional<NotificationEntity> requestId=notificationRepository.findById(id);
+        if(requestId.isEmpty()){
+            throw new RuntimeException("존재 ㄴㄴ 알람");
+        }
+        NotificationEntity notification=requestId.get();
+
+        if (!notification.getReceiver().getUserid().equals(userId)) {
+            throw new RuntimeException("본인의 알림만 읽을 수 있음.");
+        }
+
+        notification.setRead(true);
+
+        return notificationRepository.save(notification);
+    }
 }
