@@ -1,16 +1,23 @@
 package com.example.cipherquest.utils.tier_SegmentTree;
 
-public class BronzeSegmentTree extends AbstractSegmentTree{
+public class BronzeSegmentTree extends AbstractSegmentTree {
 
     public BronzeSegmentTree(int maxScore) {
         super(maxScore);
     }
 
     @Override
-    public int query(int l, int r) {
+    public int query(int left, int right) {
+        return queryInternal(1, 0, size - 1, left, right);
+    }
 
-        //해당 티어의 쿼리 로직 구현
+    private int queryInternal(int node, int nodeLeft, int nodeRight, int queryLeft, int queryRight) {
+        if (queryRight < nodeLeft || nodeRight < queryLeft) return 0;
 
-        return 0;
+        if (queryLeft <= nodeLeft && nodeRight <= queryRight) return tree[node];
+        
+        int mid = (nodeLeft + nodeRight) / 2;
+        return queryInternal(node * 2, nodeLeft, mid, queryLeft, queryRight)
+                + queryInternal(node * 2 + 1, mid + 1, nodeRight, queryLeft, queryRight);
     }
 }
